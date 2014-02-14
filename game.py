@@ -7,11 +7,8 @@ screen = pygame.display.set_mode(size)
 worldX = 0
 hero = env.Hero()
 platforms = pygame.sprite.Group()
-platforms.add(env.Platform(0, 400, 400, 50))
-platforms.add(env.Platform(300, 350, 400, 50))
-platforms.add(env.Platform(600, 400, 400, 50))
-platforms.add(env.Platform(1000, 300, 400, 50))
-platforms.add(env.Platform(300, 230, 400, 50))
+
+
 def paint():
         screen.fill(16777215)
         otherScreen = pygame.Surface((3000, 768))
@@ -36,6 +33,18 @@ def update():
                 worldX += hero.speed
         if (hero.rect.x - worldX < 300):
                 worldX -= hero.speed
+
+def loadWorld(file):
+        f = open (file)
+        for line in f:
+                l = line.split(",")
+                coords = []
+                for x in l:
+                        coords.append(int(x))
+                platforms.add(env.Platform(coords[0], coords[1], 
+                        coords[2], coords[3]))
+
+loadWorld('dewick.lvl')
 
 while 1:
         getInput()
