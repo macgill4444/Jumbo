@@ -8,6 +8,7 @@ class Hero(pygame.sprite.Sprite):
                 self.rect = pygame.rect.Rect(100, 100, 50, 50)
                 self.moveVector = [0, 0]
                 self.inAir = True
+                self.canJump = True
                 self.speed = 3
         def move(self, keys):
                 if (keys[pygame.K_d]):
@@ -30,7 +31,11 @@ class Hero(pygame.sprite.Sprite):
                                 else:
                                         self.moveVector[0] = 0
                 if (keys[pygame.K_SPACE] and not self.inAir):
-                        self.moveVector[1] = -15
+                        if (self.canJump):
+                                self.moveVector[1] = -18
+                        self.canJump = False
+                if not keys[pygame.K_SPACE] and not self.inAir:
+                        self.canJump = True
                 self.moveVector[1] += 1
                 if (self.moveVector[0] > self.speed):
                         self.moveVector[0] = self.speed
@@ -42,6 +47,7 @@ class Hero(pygame.sprite.Sprite):
                 self.rect.y += self.moveVector[1]
         def draw(self, screen):
                 screen.blit(self.image, self.rect)
+
         def collide(self, platforms):
                 grounded = False
                 for platform in platforms:

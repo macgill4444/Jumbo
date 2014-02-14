@@ -11,7 +11,7 @@ platforms.add(env.Platform(0, 400, 400, 50))
 platforms.add(env.Platform(300, 350, 400, 50))
 platforms.add(env.Platform(600, 400, 400, 50))
 platforms.add(env.Platform(1000, 300, 400, 50))
-
+platforms.add(env.Platform(300, 230, 400, 50))
 def paint():
         screen.fill(16777215)
         otherScreen = pygame.Surface((3000, 768))
