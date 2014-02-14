@@ -37,12 +37,18 @@ def update():
 def loadWorld(file):
         f = open (file)
         for line in f:
-                l = line.split(",")
-                coords = []
-                for x in l:
-                        coords.append(int(x))
-                platforms.add(env.Platform(coords[0], coords[1], 
-                        coords[2], coords[3]))
+
+                if line[0] != '#':
+                        l = line.split(",")
+                        coords = []
+                
+                        for x in l:
+                                coords.append(int(x))
+                        try:
+                                platforms.add(env.Platform(coords[0], coords[1],
+                                        coords[2], coords[3]))
+                        except:
+                                pass
 
 loadWorld('dewick.lvl')
 
