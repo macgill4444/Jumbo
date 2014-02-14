@@ -1,4 +1,4 @@
-import sys,pygame, env
+import sys, pygame, env
 
 pygame.init()
 fpsClock = pygame.time.Clock()
@@ -39,10 +39,10 @@ def update():
                 worldY -= 5
         if (hero.rect.y - worldY > 300):
                 worldY += 5
+
 def loadWorld(file):
         f = open (file)
         for line in f:
-
                 if line[0] != '#':
                         l = line.split(",")
                         coords = []
