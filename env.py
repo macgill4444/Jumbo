@@ -30,11 +30,11 @@ class Hero(pygame.sprite.Sprite):
                                         self.moveVector[0] -= 1
                                 else:
                                         self.moveVector[0] = 0
-                if (keys[pygame.K_SPACE] and not self.inAir):
+                if (keys[pygame.K_j] and not self.inAir):
                         if (self.canJump):
                                 self.moveVector[1] = -18
                         self.canJump = False
-                if not keys[pygame.K_SPACE] and not self.inAir:
+                if not keys[pygame.K_j] and not self.inAir:
                         self.canJump = True
                 self.moveVector[1] += 1
                 if (self.moveVector[0] > self.speed):
