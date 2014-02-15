@@ -47,8 +47,8 @@ class Hero(pygame.sprite.Sprite):
         def update(self):
                 self.rect.x += self.moveVector[0]
                 self.rect.y += self.moveVector[1]
-        def draw(self, screen):
-                screen.blit(self.image, self.rect)
+        def draw(self, screen,world):
+                screen.blit(self.image, self.rect.move(world))
 # handle collision detection and position updates
 # as new collidable objects are added, more arguments will be added to collide
         def collide(self, platforms):
@@ -93,5 +93,8 @@ class Platform(pygame.sprite.Sprite):
                 if (rect.colliderect(self.rect)):
                         return rect.clip(self.rect)
                 return None
-        def draw(self, screen):
-                screen.blit(self.image, self.rect)
+#parameter world is a vector containing the offset from 0, 0 that the world has 
+               # scrolled
+        def draw(self, screen, world):
+                global worldX, worldY
+                screen.blit(self.image, self.rect.move(world))
