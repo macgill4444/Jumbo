@@ -76,11 +76,8 @@ class Hero(pygame.sprite.Sprite):
                                 self.moveVector[0] = 0
                 if not grounded:
                         self.inAir = True
-<<<<<<< HEAD
 #platform is a static box that inhibits movement in the environment
-=======
                         
->>>>>>> f06660a95056d75de69caf1fa46926fd621aabea
 class Platform(pygame.sprite.Sprite):
 # x, y are the top left corner, w, h are the width and height
         def __init__(self, x, y, w, h):
