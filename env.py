@@ -47,7 +47,8 @@ class Hero(pygame.sprite.Sprite):
                 self.rect.y += self.moveVector[1]
         def draw(self, screen):
                 screen.blit(self.image, self.rect)
-
+# handle collision detection and position updates
+# as new collidable objects are added, more arguments will be added to collide
         def collide(self, platforms):
                 grounded = False
                 for platform in platforms:
@@ -73,7 +74,9 @@ class Hero(pygame.sprite.Sprite):
                                 self.moveVector[0] = 0
                 if not grounded:
                         self.inAir = True
+#platform is a static box that inhibits movement in the environment
 class Platform(pygame.sprite.Sprite):
+# x, y are the top left corner, w, h are the width and height
         def __init__(self, x, y, w, h):
                 pygame.sprite.Sprite.__init__(self)
                 self.image = pygame.surface.Surface((w, h))
@@ -81,6 +84,8 @@ class Platform(pygame.sprite.Sprite):
                 self.rect = pygame.rect.Rect(x, y, w, h)
         def update(self):
                 pass
+# returns the rectangle that is the intersection between rect and the platform,
+# none if the rectangles do not collide
         def collides(self, rect):
                 if (rect.colliderect(self.rect)):
                         return rect.clip(self.rect)

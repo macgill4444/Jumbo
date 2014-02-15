@@ -6,17 +6,28 @@ size = width, height = 1024, 768
 screen = pygame.display.set_mode(size)
 worldX = 0
 worldY = 0
+#env.Hero is the class for the player-controlled character
 hero = env.Hero()
+#platforms is a sprite group that contains all static platforms
 platforms = pygame.sprite.Group()
+#background is the current background image
 background = pygame.image.load('back.jpg').convert()
 
 def paint():
         screen.fill(16777215)
         otherScreen = pygame.Surface((3000, 1000))
-        otherScreen.set_clip( pygame.rect.Rect(worldX, worldY, 1024, 768))
+        global worldX
+        #prevent the world from scrolling out of screen
+        if worldX < 0:
+                worldX = 0
+        #set the rendering area for the rendering buffer to the area currently
+        #visible on screen
+        otherScreen.set_clip( pygame.rect.Rect(worldX, (worldY) , 1024, 768))
         otherScreen.blit(background, pygame.rect.Rect(0, 0, 1024, 768))
+        #draw sprites
         hero.draw(otherScreen)
         platforms.draw(otherScreen)
+        # render the game world to the screen
         screen.blit(otherScreen, pygame.rect.Rect(0, 0, 1024, 768), 
                 otherScreen.get_clip())
         pygame.display.flip()
@@ -37,7 +48,7 @@ def update():
                 worldX -= hero.speed
         if (hero.rect.y - worldY < 200):
                 worldY -= 5
-        if (hero.rect.y - worldY > 300):
+        if (hero.rect.y - worldY > 600):
                 worldY += 5
 def loadWorld(file):
         f = open (file)
@@ -55,7 +66,7 @@ def loadWorld(file):
                         except:
                                 pass
 
-loadWorld('dewick.lvl')
+loadWorld('miller.lvl')
 
 while 1:
         getInput()
