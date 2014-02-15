@@ -4,12 +4,14 @@ class Hero(pygame.sprite.Sprite):
         def __init__(self):
                 pygame.sprite.Sprite.__init__(self)
                 self.image = pygame.image.load('mouse.png').convert()
+                blue    = (   0,   0,   255)
+                self.image.set_colorkey(blue)
                 self.image = pygame.transform.scale(self.image, (50, 50))
                 self.rect = pygame.rect.Rect(100, 100, 50, 50)
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.canJump = True
-                self.speed = 4
+                self.speed = 7
         def move(self, keys):
                 if (keys[pygame.K_d]):
                         if not self.inAir:
@@ -74,7 +76,11 @@ class Hero(pygame.sprite.Sprite):
                                 self.moveVector[0] = 0
                 if not grounded:
                         self.inAir = True
+<<<<<<< HEAD
 #platform is a static box that inhibits movement in the environment
+=======
+                        
+>>>>>>> f06660a95056d75de69caf1fa46926fd621aabea
 class Platform(pygame.sprite.Sprite):
 # x, y are the top left corner, w, h are the width and height
         def __init__(self, x, y, w, h):
