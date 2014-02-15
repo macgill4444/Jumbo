@@ -12,7 +12,6 @@ hero = env.Hero()
 #platforms is a sprite group that contains all static platforms
 platforms = pygame.sprite.Group()
 #background is the current background image
-background = pygame.image.load('back.jpg').convert()
 
 def paint():
         screen.fill(16777215)
@@ -53,6 +52,9 @@ def update():
 
 def loadWorld(file):
         f = open (file)
+        global background
+
+        background = pygame.image.load('back.jpg').convert()
         for line in f:
                 if line[0] != '#':
                         l = line.split(",")
