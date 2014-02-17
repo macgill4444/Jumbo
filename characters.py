@@ -4,6 +4,8 @@ class Hero(pygame.sprite.Sprite):
         def __init__(self):
                 pygame.sprite.Sprite.__init__(self)
                 self.image = pygame.image.load('mouse.png').convert()
+                self.swordImage = pygame.Surface((70, 10))
+                self.swordRect = self.swordImage.get_rect()
                 blue    = (   0,   0,   255)
                 self.image.set_colorkey(blue)
                 self.image = pygame.transform.scale(self.image, (50, 50))
@@ -11,6 +13,10 @@ class Hero(pygame.sprite.Sprite):
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.canJump = True
+# sword indicates whether the mouse is in sword stance or not
+# swordframe indicates the current position in the sword animation
+                self.sword = False
+                self.swordFrame = 0
                 self.speed = 7
         def move(self, keys):
                 if (keys[pygame.K_d]):
@@ -32,12 +38,19 @@ class Hero(pygame.sprite.Sprite):
                                         self.moveVector[0] -= 1
                                 else:
                                         self.moveVector[0] = 0
-                if (keys[pygame.K_j] and not self.inAir):
-                        if (self.canJump):
-                                self.moveVector[1] = -15
-                        self.canJump = False
-                if not keys[pygame.K_j] and not self.inAir:
-                        self.canJump = True
+                if (keys[pygame.K_k]):
+                        self.sword = not self.sword
+                if (not self.sword):
+                        if (keys[pygame.K_j] and not self.inAir):
+                                if (self.canJump):
+                                        self.moveVector[1] = -15
+                                self.canJump = False
+                        if not keys[pygame.K_j] and not self.inAir:
+                                self.canJump = True
+                else:
+                        if (keys[pygame.K_j]) and self.swordFrame < 4:
+                                self.swordFrame = 22
+
                 self.moveVector[1] += 1
                 if (self.moveVector[0] > self.speed):
                         self.moveVector[0] = self.speed
@@ -47,8 +60,18 @@ class Hero(pygame.sprite.Sprite):
         def update(self):
                 self.rect.x += self.moveVector[0]
                 self.rect.y += self.moveVector[1]
+
+                self.swordFrame -= 1
+                if self.swordFrame < 0:
+                        self.swordFrame = 0
+                if self.sword:
+                        self.swordRect.x = self.rect.x + (self.swordFrame * 2 + 30)
+                        self.swordRect.y = self.rect.y + 30
         def draw(self, screen,world):
+
                 screen.blit(self.image, self.rect.move(world))
+                if self.sword:
+                        screen.blit(self.swordImage, self.swordRect.move(world))
 # handle collision detection and position updates
 # as new collidable objects are added, more arguments will be added to collide
         def collide(self, platforms):
