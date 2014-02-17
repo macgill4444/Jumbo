@@ -67,6 +67,11 @@ class Hero(pygame.sprite.Sprite):
                 if self.sword:
                         self.swordRect.x = self.rect.x + (self.swordFrame * 2 + 30)
                         self.swordRect.y = self.rect.y + 30
+                        self.speed = 4
+                else:
+                        self.swordRect.x = -100
+                        self.speed = 7
+                        
         def draw(self, screen,world):
 
                 screen.blit(self.image, self.rect.move(world))
