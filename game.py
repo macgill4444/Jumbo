@@ -1,4 +1,4 @@
-import sys, pygame, env
+import sys, pygame, env, characters
 
 pygame.init()
 fpsClock = pygame.time.Clock()
@@ -8,7 +8,7 @@ global worldX, worldY
 worldX = 0
 worldY = 0
 #env.Hero is the class for the player-controlled character
-hero = env.Hero()
+hero = characters.Hero()
 #platforms is a sprite group that contains all static platforms
 platforms = pygame.sprite.Group()
 #background is the current background image
