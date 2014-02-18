@@ -11,6 +11,8 @@ worldY = 0
 hero = characters.Hero()
 #platforms is a sprite group that contains all static platforms
 platforms = pygame.sprite.Group()
+
+monsters = pygame.sprite.Group()
 #background is the current background image
 
 def paint():
@@ -25,6 +27,8 @@ def paint():
         screen.blit(background, pygame.rect.Rect(-worldX, -worldY, 1024, 768))
         #draw sprites
         hero.draw(screen, (-worldX, -worldY))
+        for monster in monsters:
+                monster.draw(screen, (-worldX, -worldY))
         for platform in platforms:
                 platform.draw(screen, (-worldX, -worldY))
         # render the game world to the screen
@@ -52,8 +56,9 @@ def update():
 def loadWorld(file):
         f = open (file)
         global background
-
         background = pygame.image.load('back.jpg').convert()
+
+        monsters.add(characters.Cockroach(100, 100))
         for line in f:
                 if line[0] != '#':
                         l = line.split(",")

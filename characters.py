@@ -6,7 +6,7 @@ class Hero(pygame.sprite.Sprite):
                 self.image = pygame.image.load('mouse.png').convert()
                 self.swordImage = pygame.Surface((70, 10))
                 self.swordRect = self.swordImage.get_rect()
-                blue    = (   0,   0,   255)
+                blue    = (0,   0,   255)
                 self.image.set_colorkey(blue)
                 self.image = pygame.transform.scale(self.image, (50, 50))
                 self.rect = pygame.rect.Rect(100, 100, 50, 50)
@@ -105,3 +105,18 @@ class Hero(pygame.sprite.Sprite):
                 if not grounded:
                         self.inAir = True
 
+class Cockroach(pygame.sprite.Sprite):
+        def __init__(self, x, y):
+                pygame.sprite.Sprite.__init__(self)
+                self.x = x;
+                self.y = y;
+                try:
+                        self.image = pygame.image.load('cockroach.png').convert()
+                except:
+                        self.image = pygame.Surface((100, 63))
+                self.rect = self.image.get_rect().move(self.x, self.y)
+        def update(self):
+                pass
+                
+        def draw(self, screen, world):
+                screen.blit(self.image, self.rect.move(world))
