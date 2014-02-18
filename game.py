@@ -16,13 +16,12 @@ platforms = pygame.sprite.Group()
 def paint():
         screen.fill(16777215)
         #otherScreen = pygame.Surface((3000, 1000))
-        global worldX
+        global worldX, worldY
         #prevent the world from scrolling out of screen
         if worldX < 0:
                 worldX = 0
         #set the rendering area for the rendering buffer to the area currently
         #visible on screen
-        #otherScreen.set_clip( pygame.rect.Rect(worldX, (worldY) , 1024, 768))
         screen.blit(background, pygame.rect.Rect(-worldX, -worldY, 1024, 768))
         #draw sprites
         hero.draw(screen, (-worldX, -worldY))
@@ -39,7 +38,7 @@ def getInput():
 def update():
         hero.collide(platforms)
         hero.update()
-
+#camera mechanics:
         global worldX, worldY
         if (hero.rect.x - worldX > 600):
                 worldX += hero.speed
