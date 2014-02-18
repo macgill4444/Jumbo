@@ -6,6 +6,7 @@ class Hero(pygame.sprite.Sprite):
                 self.image = pygame.image.load('mouse.png').convert()
                 self.swordImage = pygame.Surface((70, 10))
                 self.swordRect = self.swordImage.get_rect()
+# set the color key to blue
                 blue    = (0,   0,   255)
                 self.image.set_colorkey(blue)
                 self.image = pygame.transform.scale(self.image, (50, 50))
