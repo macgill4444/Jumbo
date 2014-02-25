@@ -8,9 +8,10 @@ class Hero(pygame.sprite.Sprite):
                 self.swordRect = self.swordImage.get_rect()
 # set the color key to blue
                 blue    = (0,   0,   255)
+                self.orientation = 1
                 self.image.set_colorkey(blue)
-                self.image = pygame.transform.scale(self.image, (50, 50))
-                self.rect = pygame.rect.Rect(100, 100, 50, 50)
+                self.image = pygame.transform.scale(self.image, (150, 150))
+                self.rect = self.image.get_rect()
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.canJump = True
@@ -23,10 +24,12 @@ class Hero(pygame.sprite.Sprite):
                 if (keys[pygame.K_d]):
                         if not self.inAir:
                                 self.moveVector[0] += 1
+                                self.orientation  = 1
                         else:
                                 self.moveVector[0] += 0.125
                 elif (keys[pygame.K_a]):
                         if not self.inAir:
+                                self.orientation = -1
                                 self.moveVector[0] -= 1
                         else:
                                 self.moveVector[0] -= 0.125
@@ -74,8 +77,12 @@ class Hero(pygame.sprite.Sprite):
                         self.speed = 7
                         
         def draw(self, screen,world):
-
-                screen.blit(self.image, self.rect.move(world))
+                if (self.orientation == -1):
+                        screen.blit(pygame.transform.flip(
+                                self.image, True, False), 
+                                        self.rect.move(world))
+                else:
+                        screen.blit(self.image, self.rect.move(world))
                 if self.sword:
                         screen.blit(self.swordImage, self.swordRect.move(world))
 # handle collision detection and position updates
