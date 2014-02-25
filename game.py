@@ -50,7 +50,7 @@ def update():
                 worldX -= hero.speed
         if (hero.rect.y - worldY < 200):
                 worldY -= 5
-        if (hero.rect.y - worldY > 600):
+        if (hero.rect.y - worldY > 500):
                 worldY += 5
 
 def loadWorld(file):
