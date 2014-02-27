@@ -57,7 +57,7 @@ def update():
 def loadWorld(file):
         f = open (file)
         global background
-        background = pygame.image.load('back.jpg').convert()
+        background = pygame.image.load(f.readline().rstrip()).convert()
 
         dynamics.add(characters.Cockroach(100, 400))
         for line in f:
@@ -73,7 +73,7 @@ def loadWorld(file):
                         except:
                                 pass
 
-loadWorld('miller.lvl')
+loadWorld('room.lvl')
 
 while 1:
         getInput()
