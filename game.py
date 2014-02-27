@@ -59,7 +59,7 @@ def loadWorld(file):
         global background
         background = pygame.image.load('back.jpg').convert()
 
-        dynamics.add(characters.Cockroach(100, 400))
+        dynamics.add(characters.Cockroach(100, 300))
         for line in f:
                 if line[0] != '#':
                         l = line.split(",")

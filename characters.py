@@ -94,7 +94,7 @@ class Hero(pygame.sprite.Sprite):
         def dynamicCollide(self, dynamics):
                 for dynamic in dynamics:
                         if (self.rect.colliderect(dynamic.rect)):
-                                dynamic.collide(self)
+                                dynamic.entityCollide(self)
         def platformCollide(self, platforms):
                 grounded = False
                 for platform in platforms:
@@ -130,13 +130,55 @@ class Cockroach(pygame.sprite.Sprite):
                 except:
                         self.image = pygame.Surface((100, 63))
                 self.rect = self.image.get_rect().move(x, y)
+                self.moveVector = [0, 0]
+                self.inAir = True
+                self.grounded = False
+
         def update(self, hero, platforms):
-                if (self.rect.x < hero.rect.x):
-                        self.rect.x += 2
-                if (self.rect.x > hero.rect.x):
-                        self.rect.x -= 2
+                #need to find a way to know if hero is on platform
+                #this moves towards hero
+                self.collide(platforms, None)
+                if (self.grounded == True):
+                        if (self.rect.x < hero.rect.x):
+                                self.rect.x += 2
+                        if (self.rect.x > hero.rect.x):
+                                self.rect.x -= 2
+                #this moves downward 
+                if (self.inAir == True):
+                        self.rect.y += 4 # 
+                        
                 
         def draw(self, screen, world):
                 screen.blit(self.image, self.rect.move(world))
-        def collide(self, who):
+
+        def entityCollide(self, who):
                 pass
+                
+        def collide(self, platforms, dynamics):
+                self.platformCollide(platforms)
+                #do nothing with dynamics for now
+
+        def platformCollide(self, platforms):
+                for platform in platforms:
+                        rect = self.rect.move((0, self.moveVector[1]))
+                        col = platform.collides(rect) 
+                        if col is not None:
+                                if (self.rect.y > platform.rect.y):
+                                        self.rect.y = rect.y + col.height
+                                        self.moveVector[1] = 0
+
+                                if (self.rect.y < platform.rect.y):
+                                        self.inAir = False
+                                        self.grounded = True
+                                        self.rect.y = rect.y - col.height
+                                        self.moveVector[1] = 0
+                        rect = self.rect.move((self.moveVector[0], 0))
+                        col = platform.collides(rect)
+                        if col is not None:
+                                if (self.rect.x < platform.rect.x):
+                                        self.rect.x = rect.x - col.width
+                                if (self.rect.x > platform.rect.x):
+                                        self.rect.x = rect.x + col.width
+                                self.moveVector[0] = 0
+
+
