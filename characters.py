@@ -6,11 +6,12 @@ class Hero(pygame.sprite.Sprite):
                 self.image = pygame.image.load('mouse.png').convert()
                 self.swordImage = pygame.Surface((70, 10))
                 self.swordRect = self.swordImage.get_rect()
+                self.health = 5
 # set the color key to blue
                 blue    = (0,   0,   255)
                 self.orientation = 1
                 self.image.set_colorkey(blue)
-                self.image = pygame.transform.scale(self.image, (150, 150))
+                self.image = pygame.transform.scale(self.image, (100, 100))
                 self.rect = self.image.get_rect()
                 self.moveVector = [0, 0]
                 self.inAir = True
@@ -87,7 +88,14 @@ class Hero(pygame.sprite.Sprite):
                         screen.blit(self.swordImage, self.swordRect.move(world))
 # handle collision detection and position updates
 # as new collidable objects are added, more arguments will be added to collide
-        def collide(self, platforms):
+        def collide(self, platforms, dynamics):
+                self.platformCollide(platforms)
+                self.dynamicCollide(dynamics)
+        def dynamicCollide(self, dynamics):
+                for dynamic in dynamics:
+                        if (self.rect.colliderect(dynamic.rect)):
+                                dynamic.collide(self)
+        def platformCollide(self, platforms):
                 grounded = False
                 for platform in platforms:
                         rect = self.rect.move((0, self.moveVector[1]))
@@ -116,15 +124,19 @@ class Hero(pygame.sprite.Sprite):
 class Cockroach(pygame.sprite.Sprite):
         def __init__(self, x, y):
                 pygame.sprite.Sprite.__init__(self)
-                self.x = x;
-                self.y = y;
+                
                 try:
                         self.image = pygame.image.load('cockroach.png').convert()
                 except:
                         self.image = pygame.Surface((100, 63))
-                self.rect = self.image.get_rect().move(self.x, self.y)
-        def update(self):
-                pass
+                self.rect = self.image.get_rect().move(x, y)
+        def update(self, hero, platforms):
+                if (self.rect.x < hero.rect.x):
+                        self.rect.x += 2
+                if (self.rect.x > hero.rect.x):
+                        self.rect.x -= 2
                 
         def draw(self, screen, world):
                 screen.blit(self.image, self.rect.move(world))
+        def collide(self, who):
+                pass
