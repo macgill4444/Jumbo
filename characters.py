@@ -11,7 +11,7 @@ class Hero(pygame.sprite.Sprite):
                 blue    = (0,   0,   255)
                 self.orientation = 1
                 self.image.set_colorkey(blue)
-                self.image = pygame.transform.scale(self.image, (100, 53))
+                self.image = pygame.transform.scale(self.image, (150, 80))
                 self.rect = self.image.get_rect()
                 self.moveVector = [0, 0]
                 self.inAir = True
