@@ -9,10 +9,10 @@ worldX = 0
 worldY = 0
 #env.Hero is the class for the player-controlled character
 hero = characters.Hero()
-#platforms is a sprite group that contains all static platforms
+#platforms is a sprite group that contains all platforms
 platforms = pygame.sprite.Group()
-
-monsters = pygame.sprite.Group()
+#dynamics is the sprite group that contains all dynamic elements in the game world, including enemies, mobile objects, and collectibles
+dynamics = pygame.sprite.Group()
 #background is the current background image
 
 def paint():
@@ -27,8 +27,8 @@ def paint():
         screen.blit(background, pygame.rect.Rect(-worldX, -worldY, 1024, 768))
         #draw sprites
         hero.draw(screen, (-worldX, -worldY))
-        for monster in monsters:
-                monster.draw(screen, (-worldX, -worldY))
+        for dynamic in dynamics:
+                dynamic.draw(screen, (-worldX, -worldY))
         for platform in platforms:
                 platform.draw(screen, (-worldX, -worldY))
         # render the game world to the screen
@@ -40,8 +40,9 @@ def getInput():
         hero.move(keys)
         
 def update():
-        hero.collide(platforms)
+        hero.collide(platforms, dynamics)
         hero.update()
+        dynamics.update(hero, platforms)
 #camera mechanics:
         global worldX, worldY
         if (hero.rect.x - worldX > 600):
@@ -58,7 +59,7 @@ def loadWorld(file):
         global background
         background = pygame.image.load('back.jpg').convert()
 
-        monsters.add(characters.Cockroach(100, 100))
+        dynamics.add(characters.Cockroach(100, 400))
         for line in f:
                 if line[0] != '#':
                         l = line.split(",")
