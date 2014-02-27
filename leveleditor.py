@@ -1,21 +1,15 @@
-import easygui as eg
-import sys
+import pygame, sys
+
+pygame.init()
+background = pygame.image.load(sys.argv[1])
+screen = pygame.display.set_mode((1024, 768))
+platforms = []
 while 1:
-        title = "Message from test1.py"
-        eg.msgbox("Hello, world!", title)
+        clicks = pygame.mouse.get_pressed()
+        cursor = pygame.mouse.get_cursor()
 
-        msg ="What is your favorite flavor?"
-        title = "Ice Cream Survey"
-        choices = ["Vanilla", "Chocolate", "Strawberry", "Rocky Road"]
-        choice = eg.choicebox(msg, title, choices)
-
-# note that we convert choice to string, in case
-# the user cancelled the choice, and we got None.
-        eg.msgbox("You chose: " + str(choice), "Survey Result")
-
-        msg = "Do you want to continue?"
-        title = "Please Confirm"
-        if eg.ccbox(msg, title):     # show a Continue/Cancel dialog
-               pass  # user chose Continue
-        else:
-                sys.exit(0)           # user chose Cancel
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT: sys.exit()
+        
+        screen.blit(background, background.get_rect())
+        pygame.display.flip()
