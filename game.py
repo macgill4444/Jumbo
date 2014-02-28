@@ -60,20 +60,33 @@ def loadWorld(file):
         background = pygame.image.load(f.readline().rstrip()).convert()
 
         dynamics.add(cockroach.Cockroach(100, 0))
+<<<<<<< HEAD
         #dynamics.add(cockroach.Cockroach(1200, 0))
         #dynamics.add(cockroach.Cockroach(1500, 0))
+=======
+        enemies = False
+>>>>>>> b5352e342e981435d9bd02c0d9e872467bd0f30d
         for line in f:
-                if line[0] != '#':
+                if (line[0] == 'E'):
+                        enemies = True
+                elif line[0] != '#':
+                        
                         l = line.split(",")
-                        coords = []
-                
-                        for x in l:
-                                coords.append(int(x))
-                        try:
-                                platforms.add(env.Platform(coords[0], coords[1],
-                                        coords[2], coords[3]))
-                        except:
-                                pass
+                        if (enemies):
+                                dynamics.add(cockroach.Cockroach(int(l[1]), 
+                                        int(l[2])))
+                        else:
+                                coords = []
+                        
+                                for x in l:
+                                        coords.append(int(x))
+                                try:
+                                        platforms.add(env.Platform(coords[0], 
+                                                coords[1],
+                                                coords[2], coords[3]))
+                                except:
+                                        pass
+
 
 loadWorld('room.lvl')
 

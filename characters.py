@@ -120,4 +120,5 @@ class Hero(pygame.sprite.Sprite):
                                 if (self.rect.x > platform.rect.x):
                                         self.rect.x = rect.x + col.width
                                 self.moveVector[0] = 0
-
+                if not grounded:
+                        self.inAir = True
