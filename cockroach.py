@@ -54,14 +54,17 @@ class Cockroach(pygame.sprite.Sprite):
                 screen.blit(self.image, self.rect.move(world))
 
         def entityCollide(self, who):
+                #if collision between mouse and cockroach, health decre by 5
                 if (self.rect.colliderect(who.rect)):
-                        print "hero was been hit"
+                        who.health -= 5
+                        self.rect.x = self.rect.x + 60
                         
                                         
         def collide(self, platforms, hero):
                 self.platformCollide(platforms)
                 self.HeroOnPlatform(hero)
                 #check for player collision
+                #swordFrame is greater than 5 than it is being swung
 
         def HeroOnPlatform(self, hero):
                 #if the player collides with this
