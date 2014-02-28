@@ -55,8 +55,7 @@ class Cockroach(pygame.sprite.Sprite):
 
         def entityCollide(self, who):
                 if (self.rect.colliderect(who.rect)):
-                        print "hero was been hit"
-                        
+                        pass
                                         
         def collide(self, platforms, hero):
                 self.platformCollide(platforms)
