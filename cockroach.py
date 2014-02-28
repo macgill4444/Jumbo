@@ -12,9 +12,11 @@ class Cockroach(pygame.sprite.Sprite):
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.grounded = False
+                self.direction = 1
+
 
                 #create huge rect to see if player is on same level
-                self.rectPlayerCheck = pygame.Rect(x - 100, y + self.image.get_size()[1], 200, 1) 
+                self.rectPlayerCheck = pygame.Rect(x - 100, (y + self.image.get_size()[1]) - 1, 200 + self.image.get_size()[1], 1) 
 
                 #boolean to check it player is on same platform
                 self.playerPlatform = False
@@ -23,24 +25,25 @@ class Cockroach(pygame.sprite.Sprite):
 
         def update(self, hero, platforms):
                 #need to find a way to know if hero is on platform
-                #this moves towards hero
                 self.collide(platforms, hero) #make sure hero is passed here
+
+                #if cockroach is grounded and player is on platform, move to him
                 if (self.grounded == True and self.playerPlatform == True):
                     if (self.rect.x < hero.rect.x):
                         self.rect.x += 2
                     if (self.rect.x > hero.rect.x):
                         self.rect.x -= 2
-                elif (self.grounded == True: #and self.currentYPlatform != None):
-                    if (self.rect.x < self.currentYPlatform.x):
-                        self.rect.x += 2
-                    if (self.rect.x > self.currentYPlatform.x + self.currentYPlatform.width):
-                        self.rect.x -= 2
-                        
+                elif (self.grounded == True and self.currentYPlatform != None):
+                #if roach is grounded and player is not on platform, walk around
+                    if (self.rect.x < self.currentYPlatform.rect.x):
+                        self.direction = 1
+                    if ((self.rect.x + self.rect.w) > self.currentYPlatform.rect.x + self.currentYPlatform.rect.w):
+                        self.direction = -1
+                    self.rect.x += (5 * self.direction)
                         
                 #this moves cockroach downward 
                 if (self.inAir == True):
-                        self.rect.y += 4 # 
-                        
+                        self.rect.y += 4 #make this increasing constant
                 
         def draw(self, screen, world):
                 screen.blit(self.image, self.rect.move(world))
@@ -66,17 +69,17 @@ class Cockroach(pygame.sprite.Sprite):
         def platformCollide(self, platforms):
                 #self.grounded = False
                 for platform in platforms:
-                        rectx = self.rect.move((0, self.moveVector[1]))
-                        col = platform.collides(rectx)
+                        recty = self.rect.move((0, self.moveVector[1]))
+                        col = platform.collides(recty)
                         if col is not None:
-                            self.currentYPlatform = rectx                   
+                            self.currentYPlatform = platform               
                             if (self.rect.y > platform.rect.y):
-                                self.rect.y = rectx.y + col.height
+                                self.rect.y = recty.y + col.height
                                 self.moveVector[1] = 0
                             if (self.rect.y < platform.rect.y):
                                 self.inAir = False
                                 self.grounded = True
-                                self.rect.y = rectx.y - col.height
+                                self.rect.y = recty.y - col.height
                                 self.moveVector[1] = 0
                         rect = self.rect.move((self.moveVector[0], 0))
                         col = platform.collides(rect)
