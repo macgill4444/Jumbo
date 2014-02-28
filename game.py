@@ -62,7 +62,9 @@ def loadWorld(file):
         dynamics.add(cockroach.Cockroach(100, 0))
         enemies = False
         for line in f:
-                if line[0] != '#':
+                if (line[0] == 'E'):
+                        enemies = True
+                elif line[0] != '#':
                         
                         l = line.split(",")
                         if (enemies):
