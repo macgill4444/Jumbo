@@ -1,4 +1,4 @@
-import sys, pygame, env, characters
+import sys, pygame, env, characters, cockroach
 
 pygame.init()
 fpsClock = pygame.time.Clock()
@@ -59,7 +59,7 @@ def loadWorld(file):
         global background
         background = pygame.image.load(f.readline().rstrip()).convert()
 
-        dynamics.add(characters.Cockroach(100, 300))
+        dynamics.add(cockroach.Cockroach(100, 0))
         for line in f:
                 if line[0] != '#':
                         l = line.split(",")
