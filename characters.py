@@ -1,28 +1,67 @@
 import pygame, cockroach
+import pyganim
 
 #make separate cockroach class, decrement health for hero collision, make cockroach pace platform while hero no on platform
 
 class Hero(pygame.sprite.Sprite):
         def __init__(self):
                 pygame.sprite.Sprite.__init__(self)
-                self.image = pygame.image.load('mouse.png').convert()
+                # set animation states
+                self.__setAnims__()
+
+             
+
+                # sword/health
                 self.swordImage = pygame.Surface((70, 10))
                 self.swordRect = self.swordImage.get_rect()
                 self.health = 5
-# set the color key to blue
-                blue    = (0,   0,   255)
+
                 self.orientation = 1
-                self.image.set_colorkey(blue)
-                self.image = pygame.transform.scale(self.image, (150, 80))
-                self.rect = self.image.get_rect()
+                self.rect = self.right_standing.get_rect()
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.canJump = True
-# sword indicates whether the mouse is in sword stance or not
-# swordframe indicates the current position in the sword animation
+
+                # sword indicates whether the mouse is in sword stance or not
+                # swordframe indicates the current position in the sword animation
                 self.sword = False
                 self.swordFrame = 0
-                self.speed = 7
+                self.speed = 9
+
+        def __setAnims__(self):
+                '''initializes animation/static sprites'''
+
+                # static sprites
+                self.right_standing = pygame.image.load('sprites/stand.png')
+                self.right_standing = pygame.transform.scale(self.right_standing, (300, 150))
+                self.left_standing = pygame.transform.flip(self.right_standing, True, False)
+                self.right_jump = pygame.image.load('sprites/run_2.png')
+                self.right_jump = pygame.transform.scale(self.right_jump, (300, 150))
+                self.left_jump = pygame.transform.flip(self.right_jump, True, False)
+
+                # animation objects
+                self.animObjs = {}
+                self.animObjs['right-walk'] = pyganim.PygAnimation(
+                        [('sprites/run_0.png', 0.1),
+                         ('sprites/run_1.png', 0.1),
+                         ('sprites/run_2.png', 0.1),
+                         ('sprites/run_3.png', 0.1),
+                         ('sprites/run_4.png', 0.1),
+                         ('sprites/run_5.png', 0.05),
+                         ('sprites/run_6.png', 0.05),
+                         ('sprites/run_7.png', 0.05)
+                        ])
+                self.animObjs['right-walk'].scale((300, 150))
+
+                # flip for left-walk
+                self.animObjs['left-walk'] = self.animObjs['right-walk'].getCopy()
+                self.animObjs['left-walk'].flip(True, False) # (boolx, booly)
+                self.animObjs['left-walk'].makeTransformsPermanent()
+
+                # animation 'conductor'
+                self.conductor = pyganim.PygConductor(self.animObjs)
+
+
         def move(self, keys):
                 if (keys[pygame.K_d]):
                         if not self.inAir:
@@ -79,24 +118,46 @@ class Hero(pygame.sprite.Sprite):
                         self.swordRect.x = -100
                         self.speed = 7
                         
-        def draw(self, screen,world):
-                if (self.orientation == -1):
-                        screen.blit(pygame.transform.flip(
-                                self.image, True, False), 
-                                        self.rect.move(world))
-                else:
-                        screen.blit(self.image, self.rect.move(world))
+        def draw(self, screen, world):
+                # right orientation
+                if self.orientation == 1:
+                        if self.moveVector[0] == 0 and not self.inAir:    # standing still
+                                self.conductor.stop()
+                                screen.blit(self.right_standing, self.rect.move(world))
+                        elif self.inAir:   # in air
+                                self.conductor.stop()
+                                screen.blit(self.right_jump, self.rect.move(world))
+                        else:   # x axis motion
+                                self.conductor.play()
+                                self.animObjs['right-walk'].blit(screen, self.rect.move(world))
+
+                # left orientation
+                elif (self.orientation == -1):
+                        if self.moveVector[0] == 0 and not self.inAir:    # standing still
+                                self.conductor.stop()
+                                screen.blit(self.left_standing, self.rect.move(world))
+                        elif self.inAir:   # in air
+                                self.conductor.stop()
+                                screen.blit(self.left_jump, self.rect.move(world))
+                        else:   # x axis motion
+                                self.conductor.play()
+                                self.animObjs['left-walk'].blit(screen, self.rect.move(world))
+
                 if self.sword:
                         screen.blit(self.swordImage, self.swordRect.move(world))
-# handle collision detection and position updates
-# as new collidable objects are added, more arguments will be added to collide
+
+
+        # handle collision detection and position updates
+        # as new collidable objects are added, more arguments will be added to collide
         def collide(self, platforms, dynamics):
                 self.platformCollide(platforms)
                 self.dynamicCollide(dynamics)
+
         def dynamicCollide(self, dynamics):
                 for dynamic in dynamics:
                         if (self.rect.colliderect(dynamic.rect)):
                                 dynamic.entityCollide(self)
+
         def platformCollide(self, platforms):
                 grounded = False
                 for platform in platforms:
