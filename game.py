@@ -60,6 +60,8 @@ def loadWorld(file):
         background = pygame.image.load(f.readline().rstrip()).convert()
 
         dynamics.add(cockroach.Cockroach(100, 0))
+        #dynamics.add(cockroach.Cockroach(1200, 0))
+        #dynamics.add(cockroach.Cockroach(1500, 0))
         for line in f:
                 if line[0] != '#':
                         l = line.split(",")

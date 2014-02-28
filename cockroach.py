@@ -16,7 +16,7 @@ class Cockroach(pygame.sprite.Sprite):
 
 
                 #create huge rect to see if player is on same level
-                self.rectPlayerCheck = pygame.Rect(x - 100, (y + self.image.get_size()[1]) - 1, 200 + self.image.get_size()[1], 1) 
+                self.rectPlayerCheck = pygame.Rect(x - 400, (y + self.image.get_size()[1]) - 1, (800 + self.image.get_size()[1]), 1) 
 
                 #boolean to check it player is on same platform
                 self.playerPlatform = False
@@ -30,9 +30,11 @@ class Cockroach(pygame.sprite.Sprite):
                 #if cockroach is grounded and player is on platform, move to him
                 if (self.grounded == True and self.playerPlatform == True):
                     if (self.rect.x < hero.rect.x):
-                        self.rect.x += 2
+                        self.direction = 1
+                        self.rect.x += 5
                     if (self.rect.x > hero.rect.x):
-                        self.rect.x -= 2
+                        self.direction = -1
+                        self.rect.x -= 5
                 elif (self.grounded == True and self.currentYPlatform != None):
                 #if roach is grounded and player is not on platform, walk around
                     if (self.rect.x < self.currentYPlatform.rect.x):
@@ -44,23 +46,27 @@ class Cockroach(pygame.sprite.Sprite):
                 #this moves cockroach downward 
                 if (self.inAir == True):
                         self.rect.y += 4 #make this increasing constant
+
+                #update the other rectangle
+                self.rectPlayerCheck = pygame.Rect(self.rect.x - 400, (self.rect.y + self.image.get_size()[1]) - 1, (800 + self.image.get_size()[1]), 1)
                 
         def draw(self, screen, world):
                 screen.blit(self.image, self.rect.move(world))
 
         def entityCollide(self, who):
-                pass
-                
+                if (self.rect.colliderect(who.rect)):
+                        print "hero was been hit"
+                        
+                                        
         def collide(self, platforms, hero):
                 self.platformCollide(platforms)
                 self.HeroOnPlatform(hero)
-
                 #check for player collision
-                #do nothing with dynamics for now
 
         def HeroOnPlatform(self, hero):
                 #if the player collides with this
                 if (self.rectPlayerCheck.colliderect(hero.rect)):
+                        #the player is on the same platform is this is true
                         self.playerPlatform = True
                 else:
                         self.playerPlatform = False
