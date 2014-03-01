@@ -60,8 +60,11 @@ def loadWorld(file):
         background = pygame.image.load(f.readline().rstrip()).convert()
 
         dynamics.add(cockroach.Cockroach(100, 0))
+<<<<<<< HEAD
+=======
         #dynamics.add(cockroach.Cockroach(1200, 0))
         #dynamics.add(cockroach.Cockroach(1500, 0))
+>>>>>>> 7c28da85a614cae0e8cf8f117053ae84e24e6d61
         enemies = False
         for line in f:
                 if (line[0] == 'E'):
