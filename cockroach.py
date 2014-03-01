@@ -56,14 +56,9 @@ class Cockroach(pygame.sprite.Sprite):
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
                 if (self.rect.colliderect(who.rect)):
-<<<<<<< HEAD
                         who.health -= 5
                         self.rect.x = self.rect.x + 60
                         
-=======
-                        pass
->>>>>>> 7c28da85a614cae0e8cf8f117053ae84e24e6d61
-                                        
         def collide(self, platforms, hero):
                 self.platformCollide(platforms)
                 self.HeroOnPlatform(hero)
