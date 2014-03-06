@@ -42,11 +42,11 @@ class Hero(pygame.sprite.Sprite):
                 # animation objects
                 self.animObjs = {}
                 self.animObjs['right-walk'] = pyganim.PygAnimation(
-                        [('sprites/run_0.png', 0.1),
-                         ('sprites/run_1.png', 0.1),
-                         ('sprites/run_2.png', 0.1),
-                         ('sprites/run_3.png', 0.1),
-                         ('sprites/run_4.png', 0.1),
+                        [('sprites/run_0.png', 0.08),
+                         ('sprites/run_1.png', 0.09),
+                         ('sprites/run_2.png', 0.08),
+                         ('sprites/run_3.png', 0.08),
+                         ('sprites/run_4.png', 0.07),
                          ('sprites/run_5.png', 0.05),
                          ('sprites/run_6.png', 0.05),
                          ('sprites/run_7.png', 0.05)
@@ -64,44 +64,47 @@ class Hero(pygame.sprite.Sprite):
 
         def move(self, keys):
                 if (keys[pygame.K_d]):
-                        if not self.inAir:
-                                self.moveVector[0] += 1
-                                self.orientation  = 1
-                        else:
-                                self.moveVector[0] += 0.125
+                    if not self.inAir:
+                        self.moveVector[0] += 1
+                        self.orientation  = 1
+                    else:
+                        self.moveVector[0] += 0.125
+
                 elif (keys[pygame.K_a]):
-                        if not self.inAir:
-                                self.orientation = -1
-                                self.moveVector[0] -= 1
-                        else:
-                                self.moveVector[0] -= 0.125
+                    if not self.inAir:
+                        self.orientation = -1
+                        self.moveVector[0] -= 1
+                    else:
+                        self.moveVector[0] -= 0.125
                         
                 else:
-                        if not self.inAir:
-                                if (self.moveVector[0] < -0.5):
-                                        self.moveVector[0] += 1
-                                elif self.moveVector[0] > 0.5:
-                                        self.moveVector[0] -= 1
-                                else:
-                                        self.moveVector[0] = 0
+                    if not self.inAir:
+                        if (self.moveVector[0] < -0.5):
+                            self.moveVector[0] += 1
+                        elif self.moveVector[0] > 0.5:
+                            self.moveVector[0] -= 1
+                        else:
+                            self.moveVector[0] = 0
+
                 if (keys[pygame.K_k]):
-                        self.sword = not self.sword
+                    self.sword = not self.sword
+
                 if (not self.sword):
-                        if (keys[pygame.K_j] and not self.inAir):
-                                if (self.canJump):
-                                        self.moveVector[1] = -15
-                                self.canJump = False
-                        if not keys[pygame.K_j] and not self.inAir:
-                                self.canJump = True
+                    if (keys[pygame.K_j] and not self.inAir):
+                        if (self.canJump):
+                            self.moveVector[1] = -15
+                        self.canJump = False
+                    if not keys[pygame.K_j] and not self.inAir:
+                        self.canJump = True
                 else:
-                        if (keys[pygame.K_j]) and self.swordFrame < 4:
-                                self.swordFrame = 22
+                    if (keys[pygame.K_j]) and self.swordFrame < 4:
+                        self.swordFrame = 22
 
                 self.moveVector[1] += 1
                 if (self.moveVector[0] > self.speed):
-                        self.moveVector[0] = self.speed
+                    self.moveVector[0] = self.speed
                 if (self.moveVector[0] < -self.speed):
-                        self.moveVector[0] = -self.speed
+                    self.moveVector[0] = -self.speed
 
         def update(self):
                 self.rect.x += self.moveVector[0]
