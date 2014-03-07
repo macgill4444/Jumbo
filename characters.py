@@ -32,10 +32,10 @@ class Hero(pygame.sprite.Sprite):
                 '''initializes animation/static sprites'''
 
                 # static sprites
-                self.right_standing = pygame.image.load('sprites/stand.png')
+                self.right_standing = pygame.image.load('sprites/stand.png').convert()
                 self.right_standing = pygame.transform.scale(self.right_standing, (300, 150))
                 self.left_standing = pygame.transform.flip(self.right_standing, True, False)
-                self.right_jump = pygame.image.load('sprites/run_2.png')
+                self.right_jump = pygame.image.load('sprites/run_2.png').convert()
                 self.right_jump = pygame.transform.scale(self.right_jump, (300, 150))
                 self.left_jump = pygame.transform.flip(self.right_jump, True, False)
 
