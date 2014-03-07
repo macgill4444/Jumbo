@@ -2,7 +2,7 @@ import sys, pygame, env, characters, cockroach
 
 pygame.init()
 fpsClock = pygame.time.Clock()
-size = width, height = 1024, 768
+size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 global worldX, worldY
 worldX = 0
@@ -24,7 +24,7 @@ def paint():
                 worldX = 0
         #set the rendering area for the rendering buffer to the area currently
         #visible on screen
-        screen.blit(background, pygame.rect.Rect(-worldX, -worldY, 1024, 768))
+        screen.blit(background, pygame.rect.Rect(-worldX, -worldY, width, height))
         #draw sprites
         hero.draw(screen, (-worldX, -worldY))
         for dynamic in dynamics:
@@ -45,13 +45,13 @@ def update():
         dynamics.update(hero, platforms)
 #camera mechanics:
         global worldX, worldY
-        if (hero.rect.x - worldX > 600):
+        if (hero.rect.x - worldX > width - (width/3)):
                 worldX += hero.speed
-        if (hero.rect.x - worldX < 300):
+        if (hero.rect.x - worldX < width/3):
                 worldX -= hero.speed
-        if (hero.rect.y - worldY < 200):
+        if (hero.rect.y - worldY < (height/5)):
                 worldY -= 5
-        if (hero.rect.y - worldY > 500):
+        if (hero.rect.y - worldY > height - (height / 4)):
                 worldY += 5
 
 def loadWorld(file):
