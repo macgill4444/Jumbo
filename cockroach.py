@@ -5,7 +5,8 @@ class Cockroach(pygame.sprite.Sprite):
                 pygame.sprite.Sprite.__init__(self)
                 
                 try:
-                        self.image = pygame.image.load('cockroach.png').convert()
+                        self.image = pygame.image.load('cockroach.png').convert_alpha()
+			self.image
                 except:
                         self.image = pygame.Surface((100, 63))
                 self.rect = self.image.get_rect().move(x, y)
