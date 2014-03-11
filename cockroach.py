@@ -5,15 +5,15 @@ class Cockroach(pygame.sprite.Sprite):
                 pygame.sprite.Sprite.__init__(self)
                 
                 try:
-                        self.image = pygame.image.load('cockroach.png').convert_alpha()
-			self.image
+                        self.image = pygame.transform.scale(pygame.image.load('cockroach.png').convert_alpha(), (90, 56))
                 except:
-                        self.image = pygame.Surface((100, 63))
+                        self.image = pygame.Surface((90, 56))
                 self.rect = self.image.get_rect().move(x, y)
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.grounded = False
                 self.direction = 1
+                self.speed = 3
 
 
                 #create huge rect to see if player is on same level
@@ -32,17 +32,17 @@ class Cockroach(pygame.sprite.Sprite):
                 if (self.grounded == True and self.playerPlatform == True):
                     if (self.rect.x < hero.rect.x):
                         self.direction = 1
-                        self.rect.x += 5
+                        self.rect.x += self.speed
                     if (self.rect.x > hero.rect.x):
                         self.direction = -1
-                        self.rect.x -= 5
+                        self.rect.x -= self.speed
                 elif (self.grounded == True and self.currentYPlatform != None):
                 #if roach is grounded and player is not on platform, walk around
                     if (self.rect.x < self.currentYPlatform.rect.x):
                         self.direction = 1
                     if ((self.rect.x + self.rect.w) > self.currentYPlatform.rect.x + self.currentYPlatform.rect.w):
                         self.direction = -1
-                    self.rect.x += (5 * self.direction)
+                    self.rect.x += (self.speed * self.direction)
                         
                 #this moves cockroach downward 
                 if (self.inAir == True):
@@ -57,8 +57,8 @@ class Cockroach(pygame.sprite.Sprite):
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
                 if (self.rect.colliderect(who.rect)):
-                        who.health -= 5
-                        self.rect.x = self.rect.x + 60
+                        who.hit(5, (self.rect.x, self.rect.y))
+                        #self.rect.x = self.rect.x + 60
                         
         def collide(self, platforms, hero):
                 self.platformCollide(platforms)

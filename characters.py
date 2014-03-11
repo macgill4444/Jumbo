@@ -61,7 +61,13 @@ class Hero(pygame.sprite.Sprite):
                 # animation 'conductor'
                 self.conductor = pyganim.PygConductor(self.animObjs)
 
-
+        def hit(self, damage, direction):
+                self.health -= damage
+                print self.health
+                try:
+                        self.moveVector[0] += -1 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
+                except:
+                        self.moveVector[0] = 0.3
         def move(self, keys):
                 if (keys[pygame.K_d]):
                     if not self.inAir:
