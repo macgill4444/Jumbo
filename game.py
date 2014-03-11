@@ -2,7 +2,7 @@ import sys, pygame, env, characters, cockroach
 
 pygame.init()
 fpsClock = pygame.time.Clock()
-size = width, height = 800, 600
+size = width, height = 1024, 768
 screen = pygame.display.set_mode(size)
 global worldX, worldY
 worldX = 0
