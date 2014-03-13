@@ -65,7 +65,7 @@ class Hero(pygame.sprite.Sprite):
                 self.health -= damage
                 print self.health
                 try:
-                        self.moveVector[0] += -1 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
+                        self.moveVector[0] += -3 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
                 except:
                         self.moveVector[0] = 0.3
         def move(self, keys):
@@ -98,7 +98,7 @@ class Hero(pygame.sprite.Sprite):
                 if (not self.sword):
                     if (keys[pygame.K_j] and not self.inAir):
                         if (self.canJump):
-                            self.moveVector[1] = -15
+                            self.moveVector[1] = -20
                         self.canJump = False
                     if not keys[pygame.K_j] and not self.inAir:
                         self.canJump = True
