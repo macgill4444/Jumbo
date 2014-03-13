@@ -51,7 +51,7 @@ def update():
                 worldX -= hero.speed
         if (hero.rect.y - worldY < (height/5)):
                 worldY -= 5
-        if (hero.rect.y - worldY > height - (height / 4)):
+        if (hero.rect.y - worldY > height - (height / 3)):
                 worldY += 5
 
 def loadWorld(file):
@@ -59,9 +59,6 @@ def loadWorld(file):
         global background
         background = pygame.image.load(f.readline().rstrip()).convert()
 
-        dynamics.add(cockroach.Cockroach(100, 0))
-        dynamics.add(cockroach.Cockroach(1200, 0))
-        dynamics.add(cockroach.Cockroach(1500, 0))
         enemies = False
         for line in f:
                 if (line[0] == 'E'):
