@@ -1,13 +1,19 @@
-import pygame, characters
+import pygame, characters, pyganim
+
+X_SCALE = 180
+Y_SCALE = 112
 
 class Cockroach(pygame.sprite.Sprite):
         def __init__(self, x, y):
                 pygame.sprite.Sprite.__init__(self)
                 
+                # set animation states
+                self.__setAnims__()               
+ 
                 try:
-                        self.image = pygame.transform.scale(pygame.image.load('cockroach.png').convert_alpha(), (90, 56))
+                        self.image = pygame.transform.scale(pygame.image.load('sprites/roach_0.png').convert_alpha(), (X_SCALE, Y_SCALE))
                 except:
-                        self.image = pygame.Surface((90, 56))
+                        self.image = pygame.Surface((X_SCALE, Y_SCALE))
                 self.rect = self.image.get_rect().move(x, y)
                 self.moveVector = [0, 0]
                 self.inAir = True
@@ -23,6 +29,24 @@ class Cockroach(pygame.sprite.Sprite):
                 self.playerPlatform = False
                 #self.currentXPlatform = None #does not start on a platform
                 self.currentYPlatform = None
+
+        def __setAnims__(self): 
+                # animation objects
+                self.animObjs = {}
+                self.animObjs['right-walk'] = pyganim.PygAnimation(
+                        [('sprites/roach_0.png', 0.08),
+                         ('sprites/roach_1.png', 0.09),
+                         ('sprites/roach_2.png', 0.08),
+                         ('sprites/roach_3.png', 0.08),
+                        ])
+                self.animObjs['right-walk'].scale((X_SCALE, Y_SCALE))
+
+                # flip for left-walk
+                self.animObjs['left-walk'] = self.animObjs['right-walk'].getCopy()
+                self.animObjs['left-walk'].flip(True, False) # (boolx, booly)
+                self.animObjs['left-walk'].makeTransformsPermanent()
+
+                self.conductor = pyganim.PygConductor(self.animObjs)
 
         def update(self, hero, platforms):
                 #need to find a way to know if hero is on platform
@@ -52,7 +76,12 @@ class Cockroach(pygame.sprite.Sprite):
                 self.rectPlayerCheck = pygame.Rect(self.rect.x - 400, (self.rect.y + self.image.get_size()[1]) - 1, (800 + self.image.get_size()[1]), 1)
                 
         def draw(self, screen, world):
-                screen.blit(self.image, self.rect.move(world))
+              #### not appearing....
+                self.conductor.play()
+                if self.direction == -1:
+                    self.animObjs['right-walk'].blit(screen, self.rect.move(world))
+                else:
+                    self.animObjs['left-walk'].blit(screen, self.rect.move(world))
 
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
