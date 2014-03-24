@@ -23,7 +23,8 @@ class Toxicdrip(pygame.sprite.Sprite):
         #at if it doesn't hit player before
         self.ground = ground
 
-        self.splatted = False
+        self.orig_x = x
+        self.orig_y = y
 
 
     def update(self, hero, platforms):
@@ -32,27 +33,25 @@ class Toxicdrip(pygame.sprite.Sprite):
             self.hitHero(hero)
 
         if self.rect.collidepoint(self.rect.x, self.ground):
-            self.hitGround()
+            self.explode()
 
         self.rect.y = self.rect.y + self.dy
             
     def hitHero(self, hero):
         #if the drop hits the player it needs to hurt him
         hero.health = hero.health - 10
-        self.image = self.load_image('assets/splat.gif')
-        self.dy = 0
-        self.splatted = True
+        self.explode()
 
-    def hitGround(self):
-        self.image = self.load_image('assets/splat.gif')
-        self.dy = 0
-        self.splatted = True
+    def explode(self):
+        #reset the x and y coordinates if the drop splatters
+        self.rect.x = self.orig_x
+        self.rect.y = self.orig_y
 
     def draw(self, screen, world):
         draw_pos = self.rect
         screen.blit(self.image, draw_pos.move(world))
 
-    def entityCollide(self, someshit):
+    def entityCollide(self, someBULLshit):
         pass
 
 if __name__ == "__main__":
@@ -68,9 +67,7 @@ if __name__ == "__main__":
     pygame.display.set_caption('toxic drop demo')
     clock = pygame.time.Clock()
 
-    drips = []
     drip = Toxicdrip(300, -40, 500, 10)
-    drips.append(drip)
 
     herox = 0
     hero = characters.Hero()
@@ -95,14 +92,8 @@ if __name__ == "__main__":
         hero.draw(screen, (0, 0))
 
 
-        for drop in drips:
-                drop.update(hero, None)
-                drop.draw(screen, (0, 0))
-                if drop.splatted == True:
-                    drips.remove(drop)
-                    drop.kill()
-                    drips.append(Toxicdrip(300, -40, 500, 10))
-
+        drip.update(hero, None)
+        drip.draw(screen, (0, 0))
 
         pygame.display.update()
 
