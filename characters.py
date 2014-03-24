@@ -3,29 +3,23 @@ import pyganim
 
 #make separate cockroach class, decrement health for hero collision, make cockroach pace platform while hero no on platform
 
+HIT_TIME = 13
+
 class Hero(pygame.sprite.Sprite):
         def __init__(self):
                 pygame.sprite.Sprite.__init__(self)
                 # set animation states
                 self.__setAnims__()
 
-             
-
-                # sword/health
-                self.swordImage = pygame.Surface((70, 10))
-                self.swordRect = self.swordImage.get_rect()
-                self.health = 5
-
+                self.health = 100
                 self.orientation = 1
                 self.rect = self.right_standing.get_rect()
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.canJump = True
-
-                # sword indicates whether the mouse is in sword stance or not
-                # swordframe indicates the current position in the sword animation
-                self.sword = False
-                self.swordFrame = 0
+                self.hasSpoon = False
+                self.isHitting = False
+                self.hitCounter = HIT_TIME
                 self.speed = 9
 
         def __setAnims__(self):
@@ -51,12 +45,23 @@ class Hero(pygame.sprite.Sprite):
                          ('sprites/run_6.png', 0.05),
                          ('sprites/run_7.png', 0.05)
                         ])
+                self.animObjs['right-hit'] = pyganim.PygAnimation(
+                    [('sprites/hit_1.png', 0.08),
+                     ('sprites/hit_0.png', 0.08),
+                     ('sprites/hit_1.png', 0.08),
+                     ('sprites/hit_2.png', 0.08)
+                    ])
+                self.animObjs['right-hit'].scale((450, 225))
                 self.animObjs['right-walk'].scale((300, 150))
 
-                # flip for left-walk
+
+                # flip for left
                 self.animObjs['left-walk'] = self.animObjs['right-walk'].getCopy()
                 self.animObjs['left-walk'].flip(True, False) # (boolx, booly)
                 self.animObjs['left-walk'].makeTransformsPermanent()
+                self.animObjs['left-hit'] = self.animObjs['right-hit'].getCopy()
+                self.animObjs['left-hit'].flip(True, False) # (boolx, booly)
+                self.animObjs['left-hit'].makeTransformsPermanent()
 
                 # animation 'conductor'
                 self.conductor = pyganim.PygConductor(self.animObjs)
@@ -92,19 +97,24 @@ class Hero(pygame.sprite.Sprite):
                         else:
                             self.moveVector[0] = 0
 
-                if (keys[pygame.K_k]):
-                    self.sword = not self.sword
+                if (keys[pygame.K_j] and not self.inAir):
+                    if (self.canJump):
+                        self.moveVector[1] = -20
+                    self.canJump = False
+                if not keys[pygame.K_j] and not self.inAir:
+                    self.canJump = True
 
-                if (not self.sword):
-                    if (keys[pygame.K_j] and not self.inAir):
-                        if (self.canJump):
-                            self.moveVector[1] = -20
-                        self.canJump = False
-                    if not keys[pygame.K_j] and not self.inAir:
-                        self.canJump = True
-                else:
-                    if (keys[pygame.K_j]) and self.swordFrame < 4:
-                        self.swordFrame = 22
+                # hitting
+                if (keys[pygame.K_k] and self.hitCounter == HIT_TIME and not self.isHitting):
+                    print "HIT"
+                    self.isHitting = True
+                elif ((not keys[pygame.K_k]) and self.hitCounter <= 0): # reset
+                    print "RESET"
+                    self.isHitting = False
+                    self.hitCounter = HIT_TIME
+                elif (self.isHitting):
+                    "HITTING"
+                    self.hitCounter -= 1
 
                 self.moveVector[1] += 1
                 if (self.moveVector[0] > self.speed):
@@ -116,46 +126,50 @@ class Hero(pygame.sprite.Sprite):
                 
                 self.rect.x += self.moveVector[0]
                 self.rect.y += self.moveVector[1]
-                print self.rect.x
-                print self.rect.y
-                self.swordFrame -= 1
-                if self.swordFrame < 0:
-                        self.swordFrame = 0
-                if self.sword:
-                        self.swordRect.x = self.rect.x + (self.swordFrame * 2 + 30)
-                        self.swordRect.y = self.rect.y + 30
-                        self.speed = 4
-                else:
-                        self.swordRect.x = -100
-                        self.speed = 7
+                #print self.rect.x
+                #print self.rect.y
+                #self.swordFrame -= 1
+                #if self.swordFrame < 0:
+                #        self.swordFrame = 0
+                #if self.sword:
+                #        self.swordRect.x = self.rect.x + (self.swordFrame * 2 + 30)
+                #        self.swordRect.y = self.rect.y + 30
+                #        self.speed = 4
+                #else:
+                self.speed = 7
                         
         def draw(self, screen, world):
                 # right orientation
                 if self.orientation == 1:
-                        if self.moveVector[0] == 0 and not self.inAir:    # standing still
+                        if self.isHitting and self.hitCounter > 0:
+                                self.conductor.play()
+                                self.animObjs['right-hit'].blit(screen, self.rect.move(world).move(0,-70))
+                                self.isHitting = True
+                        elif self.moveVector[0] == 0 and not self.inAir: # standing still
                                 self.conductor.stop()
                                 screen.blit(self.right_standing, self.rect.move(world))
-                        elif self.inAir:   # in air
+                        elif self.inAir:
                                 self.conductor.stop()
                                 screen.blit(self.right_jump, self.rect.move(world))
-                        else:   # x axis motion
+                        else: # x axis motion
                                 self.conductor.play()
                                 self.animObjs['right-walk'].blit(screen, self.rect.move(world))
 
                 # left orientation
                 elif (self.orientation == -1):
-                        if self.moveVector[0] == 0 and not self.inAir:    # standing still
+                        if self.isHitting and self.hitCounter > 0:
+                                self.conductor.play()
+                                self.animObjs['left-hit'].blit(screen, self.rect.move(world).move(-80,-70))
+                                self.isHitting = True
+                        elif self.moveVector[0] == 0 and not self.inAir: # standing still
                                 self.conductor.stop()
                                 screen.blit(self.left_standing, self.rect.move(world))
-                        elif self.inAir:   # in air
+                        elif self.inAir:
                                 self.conductor.stop()
                                 screen.blit(self.left_jump, self.rect.move(world))
-                        else:   # x axis motion
+                        else: # x axis motion
                                 self.conductor.play()
                                 self.animObjs['left-walk'].blit(screen, self.rect.move(world))
-
-                if self.sword:
-                        screen.blit(self.swordImage, self.swordRect.move(world))
 
 
         # handle collision detection and position updates
