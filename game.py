@@ -1,4 +1,4 @@
-import sys, pygame, env, characters, cockroach, spider
+import sys, pygame, env, characters, cockroach, spider, toxicdrip
 
 pygame.init()
 fpsClock = pygame.time.Clock()
@@ -9,7 +9,7 @@ worldX = 0
 worldY = 0
 global end
 global curlevel
-end = (0, 0, "")
+end = (1000000000, 1000000000000, "")
 #env.Hero is the class for the player-controlled character
 hero = characters.Hero()
 #platforms is a sprite group that contains all platforms
@@ -113,7 +113,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('spiderlevel.lvl')
+loadWorld('room.lvl')
 while 1:
         getInput()
         update()
