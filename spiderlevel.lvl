@@ -4,3 +4,4 @@ back.jpg
 Enemies
 spider, 0, 0
 spawn, 500, 40
+end, 5000, 150, room.lvl
