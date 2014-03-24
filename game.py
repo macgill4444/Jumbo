@@ -33,6 +33,9 @@ def paint():
                 dynamic.draw(screen, (-worldX, -worldY))
         for platform in platforms:
                 platform.draw(screen, (-worldX, -worldY))
+        #render health bar:
+        pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
+        pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
         pygame.display.flip()
 def getInput():
@@ -97,7 +100,9 @@ def loadWorld(file):
                                                 coords[2], coords[3]))
                                 except:
                                         pass
-
+        global worldX, worldY
+        worldX = hero.rect.x - 500
+        worldY = hero.rect.y - 400
 
 loadWorld('spiderlevel.lvl')
 while 1:
