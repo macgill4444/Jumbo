@@ -58,7 +58,8 @@ def loadWorld(file):
         f = open (file)
         global background
         background = pygame.image.load(f.readline().rstrip()).convert()
-
+        dynamics.empty()
+        platforms.empty()
         enemies = False
         for line in f:
                 if (line[0] == 'E'):
@@ -85,7 +86,7 @@ def loadWorld(file):
                                         pass
 
 
-loadWorld('room.lvl')
+loadWorld('spiderlevel.lvl')
 
 while 1:
         getInput()

@@ -28,18 +28,16 @@ class Spider(pygame.sprite.Sprite):
                                 self.image = self.groundimage
                                 self.rect = self.image.get_rect().move(self.rect.x, self.rect.y)
                         else:
-                                self.rect.move_ip(0, -4)
+                                self.rect.move_ip(0, -3)
                 else:
                         ray = pygame.rect.Rect(self.rect.center, (1, 55))
-                        if (ray.colliderect(hero.rect)):
-                                hero.hit(100, self)
                         if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0):
                                 self.climbing = True
                                 self.image = self.wallimage
                                 self.rect = self.image.get_rect().move(self.rect.x, self.rect.y)
                                 self.rect.move_ip(0, -200)
                         else:
-                                self.rect.move_ip(0, 10)
+                                self.rect.move_ip(0, 5)
                 
         def draw(self, screen, world):
                 screen.blit(self.image, self.rect.move(world).inflate(-5, -5))
