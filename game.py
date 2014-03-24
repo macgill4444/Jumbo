@@ -7,6 +7,8 @@ screen = pygame.display.set_mode(size)
 global worldX, worldY
 worldX = 0
 worldY = 0
+global end
+end = (0, 0, "")
 #env.Hero is the class for the player-controlled character
 hero = characters.Hero()
 #platforms is a sprite group that contains all platforms
@@ -40,6 +42,11 @@ def getInput():
         hero.move(keys)
         
 def update():
+        global end
+        endx, endy, endname = end
+
+        if (hero.rect.collidepoint(endx, endy)):
+                loadWorld(endname.strip())
         hero.collide(platforms, dynamics)
         hero.update()
         dynamics.update(hero, platforms)
@@ -76,6 +83,9 @@ def loadWorld(file):
                                 if (l[0].lower() == 'spawn'):
                                         hero.rect.x = int(l[1])
                                         hero.rect.y = int(l[2])
+                                if (l[0].lower() == 'end'):
+                                        global end
+                                        end = (int(l[1]), int (l[2]), l[3])
                         else:
                                 coords = []
                         
