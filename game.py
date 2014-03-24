@@ -96,6 +96,8 @@ def loadWorld(file):
                                 if (l[0].lower() == 'end'):
                                         global end
                                         end = (int(l[1]), int (l[2]), l[3])
+                                if (l[0].lower() == 'drip'):
+                                        dynamics.add(toxicdrip.Toxicdrip(int (l[1]), int(l[2]), int(l[3]), int(l[4])))
                         else:
                                 coords = []
                         
