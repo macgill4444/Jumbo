@@ -14,7 +14,7 @@ class Hero(pygame.sprite.Sprite):
                 # sword/health
                 self.swordImage = pygame.Surface((70, 10))
                 self.swordRect = self.swordImage.get_rect()
-                self.health = 5
+                self.health = 100
 
                 self.orientation = 1
                 self.rect = self.right_standing.get_rect()

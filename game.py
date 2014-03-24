@@ -8,6 +8,7 @@ global worldX, worldY
 worldX = 0
 worldY = 0
 global end
+global curlevel
 end = (0, 0, "")
 #env.Hero is the class for the player-controlled character
 hero = characters.Hero()
@@ -33,6 +34,9 @@ def paint():
                 dynamic.draw(screen, (-worldX, -worldY))
         for platform in platforms:
                 platform.draw(screen, (-worldX, -worldY))
+        #render health bar:
+        pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
+        pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
         pygame.display.flip()
 def getInput():
@@ -47,6 +51,10 @@ def update():
 
         if (hero.rect.collidepoint(endx, endy)):
                 loadWorld(endname.strip())
+        if (hero.health < 0):
+                global curlevel
+                hero.health = 100
+                loadWorld(curlevel)
         hero.collide(platforms, dynamics)
         hero.update()
         dynamics.update(hero, platforms)
@@ -62,6 +70,8 @@ def update():
                 worldY += 5
 
 def loadWorld(file):
+        global curlevel
+        curlevel = file
         f = open (file)
         global background
         background = pygame.image.load(f.readline().rstrip()).convert()
@@ -86,6 +96,8 @@ def loadWorld(file):
                                 if (l[0].lower() == 'end'):
                                         global end
                                         end = (int(l[1]), int (l[2]), l[3])
+                                if (l[0].lower() == 'drip'):
+                                        dynamics.add(toxicdrip.Toxicdrip(int (l[1]), int(l[2]), int(l[3]), int(l[4])))
                         else:
                                 coords = []
                         
@@ -97,7 +109,9 @@ def loadWorld(file):
                                                 coords[2], coords[3]))
                                 except:
                                         pass
-
+        global worldX, worldY
+        worldX = hero.rect.x - 500
+        worldY = hero.rect.y - 400
 
 loadWorld('spiderlevel.lvl')
 while 1:
