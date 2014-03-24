@@ -87,7 +87,7 @@ def loadWorld(file):
 
 
 loadWorld('spiderlevel.lvl')
-
+loadWorld('room.lvl')
 while 1:
         getInput()
         update()
