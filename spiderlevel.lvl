@@ -3,3 +3,4 @@ back.jpg
 0, 400, 6000, 100
 Enemies
 spider, 0, 0
+spawn, 500, 40
