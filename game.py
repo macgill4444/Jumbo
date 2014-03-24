@@ -73,6 +73,9 @@ def loadWorld(file):
                                         int(l[2])))
                                 if (l[0].lower() == 'spider'):
                                         dynamics.add(spider.Spider(int(l[1]), int (l[2])))
+                                if (l[0].lower() == 'spawn'):
+                                        hero.rect.x = int(l[1])
+                                        hero.rect.y = int(l[2])
                         else:
                                 coords = []
                         
@@ -87,7 +90,6 @@ def loadWorld(file):
 
 
 loadWorld('spiderlevel.lvl')
-loadWorld('room.lvl')
 while 1:
         getInput()
         update()
