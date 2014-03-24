@@ -1,0 +1,54 @@
+import pygame, os, sys, characters, pyganim
+from pygame.locals import *
+
+class Spiderweb(pygame.sprite.Sprite):
+    def load_image(self, image_name):
+        try:
+            image = pygame.image.load(image_name)
+        except pygame.error, message:
+            print"Cannot load image " + image_name
+            raise SystemExit, message
+        return image.convert_alpha()
+
+
+    def __init__(self, x, y):
+        self.image = self.load_image('assets/web.jpeg')
+        pass
+
+    def update(self, hero):
+        pass
+
+    def draw(self, screen):
+        pass
+
+    def caughtHero(self, hero):
+        pass
+
+    if __name__ == "__main__":
+
+    #Constants
+        FPS = 50
+        SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
+
+        #init pygame
+        pygame.init()
+        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+        pygame.display.set_caption('toxic drop demo')
+        clock = pygame.time.Clock()
+
+        hero = characters.Hero()
+        #Game loop
+        while True:
+            time_passed = clock.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+
+            screen.fill((255,255,255))
+
+            pygame.display.update()
