@@ -113,9 +113,11 @@ class Hero(pygame.sprite.Sprite):
                     self.moveVector[0] = -self.speed
 
         def update(self):
+                
                 self.rect.x += self.moveVector[0]
                 self.rect.y += self.moveVector[1]
-
+                print self.rect.x
+                print self.rect.y
                 self.swordFrame -= 1
                 if self.swordFrame < 0:
                         self.swordFrame = 0
