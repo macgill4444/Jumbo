@@ -8,3 +8,4 @@ back.jpg
 Enemies
 cockroach, 200, 600
 spawn, 0, 0
+drip, 550, 50, 1000, 5
