@@ -1,4 +1,4 @@
-import sys, pygame, env, characters, cockroach
+import sys, pygame, env, characters, cockroach, spider
 
 pygame.init()
 fpsClock = pygame.time.Clock()
@@ -67,8 +67,11 @@ def loadWorld(file):
                         
                         l = line.split(",")
                         if (enemies):
-                                dynamics.add(cockroach.Cockroach(int(l[1]), 
+                                if (l[0].lower() ==  'cockroach'):
+                                        dynamics.add(cockroach.Cockroach(int(l[1]), 
                                         int(l[2])))
+                                if (l[0].lower() == 'spider'):
+                                        dynamics.add(spider.Spider(int(l[1]), int (l[2])))
                         else:
                                 coords = []
                         
