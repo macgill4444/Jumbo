@@ -8,6 +8,7 @@ global worldX, worldY
 worldX = 0
 worldY = 0
 global end
+global curlevel
 end = (0, 0, "")
 #env.Hero is the class for the player-controlled character
 hero = characters.Hero()
@@ -50,6 +51,10 @@ def update():
 
         if (hero.rect.collidepoint(endx, endy)):
                 loadWorld(endname.strip())
+        if (hero.health < 0):
+                global curlevel
+                hero.health = 100
+                loadWorld(curlevel)
         hero.collide(platforms, dynamics)
         hero.update()
         dynamics.update(hero, platforms)
@@ -65,6 +70,8 @@ def update():
                 worldY += 5
 
 def loadWorld(file):
+        global curlevel
+        curlevel = file
         f = open (file)
         global background
         background = pygame.image.load(f.readline().rstrip()).convert()
