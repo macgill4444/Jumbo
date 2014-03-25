@@ -24,8 +24,9 @@ class Spiderweb(pygame.sprite.Sprite):
         screen.blit(self.image, draw_pos.move(world))
 
     def caughtHero(self, hero):
+        #still need to work on this, hero should not be able to move if caught
+        #in web
         hero.moveVector[1] = 2
-
     
 
 if __name__ == "__main__":
