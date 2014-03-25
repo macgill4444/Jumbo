@@ -233,3 +233,4 @@ class Hero(pygame.sprite.Sprite):
                                 self.moveVector[0] = 0
                 if not grounded:
                         self.inAir = True
+
