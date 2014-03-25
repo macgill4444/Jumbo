@@ -7,7 +7,7 @@ class Spider(pygame.sprite.Sprite):
 
                 try:
                         self.groundimage = pygame.image.load('sprites/spider_0.png').convert_alpha()
-                        self.image = pygame.image.load('spider.png').convert_alpha()
+                        self.image = pygame.image.load('sprites/spider_0.png').convert_alpha()
                 except:
                         self.groundimage = pygame.Surface((400, 100))
                         self.wallimage = pygame.Surface((400,400))
@@ -45,22 +45,22 @@ class Spider(pygame.sprite.Sprite):
                 else:
                         ray = pygame.rect.Rect(self.rect.center, (1, 55))
                         if (ray.colliderect(hero.rect)):
-                                hero.hit(100, self)
+                                hero.hit(101, self)
                         if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0):
                                 self.climbing = True
-                                self.image = self.wallimage
+                                #self.image = self.wallimage
                                 self.rect = self.image.get_rect().move(self.rect.x, self.rect.y)
                                 self.rect.move_ip(0, -200)
                         else:
                                 self.rect.move_ip(0, 10)
                 
         def draw(self, screen, world):
-                if climbing:
+                if self.climbing:
                         self.conductor.play()
                         self.animObjs['climb'].blit(screen, self.rect.move(world))
                 else:
                         self.conductor.stop()
-                        screen.blit(self.image, self.rect.move(world).inflate(-5, -5))
+                        screen.blit(self.groundimage, self.rect.move(world).inflate(-5, -5))
 
         def entityCollide(self, someshit):
                 pass
