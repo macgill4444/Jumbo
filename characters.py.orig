@@ -76,6 +76,11 @@ class Hero(pygame.sprite.Sprite):
                         self.moveVector[0] += -3 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
                 except:
                         self.moveVector[0] = 0.3
+<<<<<<< HEAD
+                        
+        def move(self, keys):
+                if (keys[pygame.K_d]):
+=======
         def move(self, keys, joystick):
                 left = keys[pygame.K_a]
                 right = keys[pygame.K_d]
@@ -89,6 +94,7 @@ class Hero(pygame.sprite.Sprite):
                         swing = joystick.get_button(3)
                 if (right):
                         
+>>>>>>> db5843ba803e4f5ea61b207ee512eed9a0691bbc
                     if not self.inAir:
                         self.moveVector[0] += 1
                         self.orientation  = 1

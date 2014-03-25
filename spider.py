@@ -1,4 +1,4 @@
-import pygame, characters
+import pygame, characters, pyganim
 
 class Spider(pygame.sprite.Sprite):
         def __init__(self, x, y):
