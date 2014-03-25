@@ -1,6 +1,13 @@
 import sys, pygame, env, characters, cockroach, spider, toxicdrip
 
 pygame.init()
+pygame.joystick.init()
+joystick = None
+joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+if (len(joysticks)>0):
+        joysticks[0].init()
+        joystick = joysticks[0]
+        print "Joystick"
 fpsClock = pygame.time.Clock()
 size = width, height = 1024, 768
 screen = pygame.display.set_mode(size)
@@ -29,12 +36,12 @@ def paint():
         #visible on screen
         screen.blit(background, pygame.rect.Rect(-worldX, -worldY, width, height))
         #draw sprites
-        hero.draw(screen, (-worldX, -worldY))
         for dynamic in dynamics:
                 dynamic.draw(screen, (-worldX, -worldY))
         for platform in platforms:
                 platform.draw(screen, (-worldX, -worldY))
         #render health bar:
+        hero.draw(screen, (-worldX, -worldY))
         pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
         pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
@@ -43,7 +50,7 @@ def getInput():
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
         keys = pygame.key.get_pressed()
-        hero.move(keys)
+        hero.move(keys, joystick)
         
 def update():
         global end
@@ -56,7 +63,7 @@ def update():
                 hero.health = 100
                 loadWorld(curlevel)
         hero.collide(platforms, dynamics)
-        hero.update()
+        hero.update(dynamics)
         dynamics.update(hero, platforms)
 #camera mechanics:
         global worldX, worldY
@@ -113,7 +120,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('room.lvl')
+loadWorld('spiderlevel.lvl')
 while 1:
         getInput()
         update()
