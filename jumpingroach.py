@@ -5,7 +5,7 @@ class Jumpingroach(cockroach.Cockroach):
     def __init__(self, x, y):
         cockroach.Cockroach.__init__(self, x, y)
 
-        self.jumpingRect = pygame.Rect(x, y + 300, 1, 300)
+        self.jumpingRect = pygame.Rect(x, y + 900, 1, 900)
 
         self.playerAbove = False
         self.jumped = False
@@ -18,7 +18,7 @@ class Jumpingroach(cockroach.Cockroach):
         if (self.jumped == False):
             if self.jumpingRect.colliderect(hero.rect):
                 #need to jump
-                self.jump = 30
+                self.jump = 200
                 self.jumped = True
 
         self.rect.y += self.jump
@@ -28,5 +28,5 @@ class Jumpingroach(cockroach.Cockroach):
 
         #keep jumping rectangle moving with the roach
         self.jumpingRect.x = self.rect.x
-        self.jumpingRect.y = self.rect.y + 300
+        self.jumpingRect.y = self.rect.y + 900
         
