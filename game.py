@@ -11,9 +11,13 @@ if (len(joysticks)>0):
 fpsClock = pygame.time.Clock()
 size = width, height = 640, 480
 screen = pygame.display.set_mode(size)
-global worldX, worldY
+global worldX, worldY, camX, camY
 worldX = 0
 worldY = 0
+camX = 0
+camY = 0
+offX = 0
+offY = 0
 global end
 global curlevel
 end = (1000000000, 1000000000000, "")
@@ -28,7 +32,11 @@ dynamics = pygame.sprite.Group()
 def paint():
         screen.fill(16777215)
         #otherScreen = pygame.Surface((3000, 1000))
-        global worldX, worldY
+        global worldX, worldY, camX, camY
+	ox = worldX
+	oy = worldY
+	worldX += camX
+	worldY += camY
         #prevent the world from scrolling out of screen
         if worldX < 0:
                 worldX = 0
@@ -46,12 +54,26 @@ def paint():
         pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
         pygame.display.flip()
+        worldX = ox
+	worldY = oy
+
 def getInput():
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
         keys = pygame.key.get_pressed()
         hero.move(keys, joystick)
-        
+	global camX, camY
+	if (joystick):
+		if (joystick.get_axis(1) > 0):
+			camY +=10
+		elif (joystick.get_axis(1) < 0):
+			camY -= 10
+		else:
+			camY = 0
+	if camY > 200:
+		camY = 200
+	if camY < -200:
+		camY = -200
 def update():
         global end
         endx, endy, endname = end
@@ -75,6 +97,7 @@ def update():
                 worldY -= 5
         if (hero.rect.y - worldY > height - (height / 3)):
                 worldY += 5
+	
 
 def loadWorld(file):
         global curlevel
