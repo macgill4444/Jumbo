@@ -36,12 +36,12 @@ def paint():
         #visible on screen
         screen.blit(background, pygame.rect.Rect(-worldX, -worldY, width, height))
         #draw sprites
-        hero.draw(screen, (-worldX, -worldY))
         for dynamic in dynamics:
                 dynamic.draw(screen, (-worldX, -worldY))
         for platform in platforms:
                 platform.draw(screen, (-worldX, -worldY))
         #render health bar:
+        hero.draw(screen, (-worldX, -worldY))
         pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
         pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
@@ -63,7 +63,7 @@ def update():
                 hero.health = 100
                 loadWorld(curlevel)
         hero.collide(platforms, dynamics)
-        hero.update()
+        hero.update(dynamics)
         dynamics.update(hero, platforms)
 #camera mechanics:
         global worldX, worldY
