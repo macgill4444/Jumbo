@@ -1,4 +1,4 @@
-import sys, pygame, env, characters, cockroach, spider, toxicdrip
+import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach
 
 pygame.init()
 pygame.joystick.init()
