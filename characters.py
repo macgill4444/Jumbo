@@ -21,6 +21,7 @@ class Hero(pygame.sprite.Sprite):
                 self.isHitting = False
                 self.hitCounter = HIT_TIME
                 self.speed = 9
+                self.hurting = 0
 
         def __setAnims__(self):
                 '''initializes animation/static sprites'''
@@ -67,7 +68,9 @@ class Hero(pygame.sprite.Sprite):
                 self.conductor = pyganim.PygConductor(self.animObjs)
 
         def hit(self, damage, direction):
-                self.health -= damage
+                if (self.hurting < 0):
+                        self.health -= damage
+                        self.hurting = 100
                 print self.health
                 try:
                         self.moveVector[0] += -3 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
@@ -110,7 +113,7 @@ class Hero(pygame.sprite.Sprite):
 
                 if (jump and not self.inAir):
                     if (self.canJump):
-                        self.moveVector[1] = -20
+                        self.moveVector[1] = -24
                     self.canJump = False
                 if not keys[pygame.K_j] and not self.inAir:
                     self.canJump = True
@@ -133,10 +136,14 @@ class Hero(pygame.sprite.Sprite):
                 if (self.moveVector[0] < -self.speed):
                     self.moveVector[0] = -self.speed
 
-        def update(self):
-                
+        def update(self, dynamics):
+                self.hurting -= 1
                 self.rect.x += self.moveVector[0]
                 self.rect.y += self.moveVector[1]
+                if self.moveVector[1] > 50:
+                        self.hit(1001, 1)
+                if  self.isHitting:
+                        pass
                 #print self.rect.x
                 #print self.rect.y
                 #self.swordFrame -= 1
