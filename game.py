@@ -105,6 +105,8 @@ def loadWorld(file):
                                         end = (int(l[1]), int (l[2]), l[3])
                                 if (l[0].lower() == 'drip'):
                                         dynamics.add(toxicdrip.Toxicdrip(int (l[1]), int(l[2]), int(l[3]), int(l[4])))
+                                if(l[0].lower() == 'jumpingroach'):
+                                        dynamics.add(jumpingroach.Jumpingroach( int (l[1]), int(l[2])))
                         else:
                                 coords = []
                         
