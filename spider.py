@@ -1,11 +1,12 @@
-import pygame, characters
+import pygame, characters, pyganim
 
 class Spider(pygame.sprite.Sprite):
         def __init__(self, x, y):
                 pygame.sprite.Sprite.__init__(self)
+                self.__setAnims__() 
 
                 try:
-                        self.groundimage = pygame.image.load('spiderwall.png').convert_alpha()
+                        self.groundimage = pygame.image.load('sprites/spider_0.png').convert_alpha()
                         self.image = pygame.image.load('spider.png').convert_alpha()
                 except:
                         self.groundimage = pygame.Surface((400, 100))
@@ -16,6 +17,18 @@ class Spider(pygame.sprite.Sprite):
                 self.image = self.groundimage
                 self.rect = self.image.get_rect().move(x,y)
                 self.speed = 8
+
+        def __setAnims__(self):
+                self.animObjs = {}
+                self.animObjs['climb'] = pyganim.PygAnimation(
+                        [('sprites/climb_0.png', 0.08),
+                         ('sprites/climb_1.png', 0.09),
+                         ('sprites/climb_0.png', 0.08),
+                         ('sprites/climb_-1.png', 0.08),
+                        ])
+
+                self.conductor = pyganim.PygConductor(self.animObjs)
+
         def update(self, hero, platforms):
                 if (self.climbing):
                         if (hero.rect.x > self.rect.x):
@@ -42,7 +55,13 @@ class Spider(pygame.sprite.Sprite):
                                 self.rect.move_ip(0, 10)
                 
         def draw(self, screen, world):
-                screen.blit(self.image, self.rect.move(world).inflate(-5, -5))
+                if climbing:
+                        self.conductor.play()
+                        self.animObjs['climb'].blit(screen, self.rect.move(world))
+                else:
+                        self.conductor.stop()
+                        screen.blit(self.image, self.rect.move(world).inflate(-5, -5))
+
         def entityCollide(self, someshit):
                 pass
 

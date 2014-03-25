@@ -7,5 +7,10 @@ back.jpg
 Enemies
 cockroach, 200, 600
 spawn, 0, 0
+<<<<<<< HEAD
 drip, 550, -30, 1000, 5
 drip, 1400, -30, 900, 10
+=======
+drip, 550, 50, 1000, 5
+end, 1000, 1000, spiderlevel.lvl
+>>>>>>> cf1f0cfa7703e19a182d6f514772ab0e5b2e932b

@@ -71,10 +71,16 @@ class Hero(pygame.sprite.Sprite):
                 if (self.hurting < 0):
                         self.health -= damage
                         self.hurting = 100
+                print self.health
                 try:
                         self.moveVector[0] += -3 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
                 except:
                         self.moveVector[0] = 0.3
+<<<<<<< HEAD
+                        
+        def move(self, keys):
+                if (keys[pygame.K_d]):
+=======
         def move(self, keys, joystick):
                 left = keys[pygame.K_a]
                 right = keys[pygame.K_d]
@@ -88,6 +94,7 @@ class Hero(pygame.sprite.Sprite):
                         swing = joystick.get_button(3)
                 if (right):
                         
+>>>>>>> db5843ba803e4f5ea61b207ee512eed9a0691bbc
                     if not self.inAir:
                         self.moveVector[0] += 1
                         self.orientation  = 1
@@ -204,10 +211,7 @@ class Hero(pygame.sprite.Sprite):
                 grounded = False
                 for platform in platforms:
                         rect = self.rect.move((0, self.moveVector[1]))
-			rect.width -= 100
-			if (self.orientation > 0):
-                        	rect.move_ip(100, 0)
-			col = platform.collides(rect) 
+                        col = platform.collides(rect) 
                         if col is not None:
                                 if (self.rect.y > platform.rect.y):
                                         self.rect.y = rect.y + col.height
@@ -219,10 +223,6 @@ class Hero(pygame.sprite.Sprite):
                                         self.rect.y = rect.y - col.height
                                         self.moveVector[1] = 0
                         rect = self.rect.move((self.moveVector[0], 0))
-
-			rect.width -= 100
-			if (self.orientation > 0):
-                        	rect.move_ip(100, 0)
                         col = platform.collides(rect)
                         if col is not None:
                                 if (self.rect.x < platform.rect.x):
