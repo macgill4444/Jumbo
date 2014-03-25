@@ -1,6 +1,13 @@
 import sys, pygame, env, characters, cockroach, spider, toxicdrip
 
 pygame.init()
+pygame.joystick.init()
+joystick = None
+joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+if (len(joysticks)>0):
+        joysticks[0].init()
+        joystick = joysticks[0]
+        print "Joystick"
 fpsClock = pygame.time.Clock()
 size = width, height = 1024, 768
 screen = pygame.display.set_mode(size)
@@ -43,7 +50,7 @@ def getInput():
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
         keys = pygame.key.get_pressed()
-        hero.move(keys)
+        hero.move(keys, joystick)
         
 def update():
         global end
@@ -113,7 +120,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('room.lvl')
+loadWorld('spiderlevel.lvl')
 while 1:
         getInput()
         update()

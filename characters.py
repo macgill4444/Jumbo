@@ -73,15 +73,26 @@ class Hero(pygame.sprite.Sprite):
                         self.moveVector[0] += -3 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
                 except:
                         self.moveVector[0] = 0.3
-        def move(self, keys):
-                if (keys[pygame.K_d]):
+        def move(self, keys, joystick):
+                left = keys[pygame.K_a]
+                right = keys[pygame.K_d]
+                jump = keys[pygame.K_j]
+                swing = keys[pygame.K_k]
+
+                if (joystick is not None):
+                        left = joystick.get_axis(0) < 0
+                        right = joystick.get_axis(0) > 0
+                        jump = joystick.get_button(2)
+                        swing = joystick.get_button(3)
+                if (right):
+                        
                     if not self.inAir:
                         self.moveVector[0] += 1
                         self.orientation  = 1
                     else:
                         self.moveVector[0] += 0.125
 
-                elif (keys[pygame.K_a]):
+                elif (left):
                     if not self.inAir:
                         self.orientation = -1
                         self.moveVector[0] -= 1
@@ -97,7 +108,7 @@ class Hero(pygame.sprite.Sprite):
                         else:
                             self.moveVector[0] = 0
 
-                if (keys[pygame.K_j] and not self.inAir):
+                if (jump and not self.inAir):
                     if (self.canJump):
                         self.moveVector[1] = -20
                     self.canJump = False
@@ -105,7 +116,7 @@ class Hero(pygame.sprite.Sprite):
                     self.canJump = True
 
                 # hitting
-                if (keys[pygame.K_k] and self.hitCounter == HIT_TIME and not self.isHitting):
+                if (swing and self.hitCounter == HIT_TIME and not self.isHitting):
                     print "HIT"
                     self.isHitting = True
                 elif ((not keys[pygame.K_k]) and self.hitCounter <= 0): # reset
