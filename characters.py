@@ -14,6 +14,7 @@ class Hero(pygame.sprite.Sprite):
                 self.health = 100
                 self.orientation = 1
                 self.rect = self.right_standing.get_rect()
+                self.rect.inflate(200,0)
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.canJump = True
@@ -232,3 +233,4 @@ class Hero(pygame.sprite.Sprite):
                                 self.moveVector[0] = 0
                 if not grounded:
                         self.inAir = True
+
