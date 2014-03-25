@@ -71,7 +71,6 @@ class Hero(pygame.sprite.Sprite):
                 if (self.hurting < 0):
                         self.health -= damage
                         self.hurting = 100
-                print self.health
                 try:
                         self.moveVector[0] += -3 *(direction[0] - self.rect.x) / (abs(direction[0] - self.rect.x))
                 except:
@@ -205,7 +204,10 @@ class Hero(pygame.sprite.Sprite):
                 grounded = False
                 for platform in platforms:
                         rect = self.rect.move((0, self.moveVector[1]))
-                        col = platform.collides(rect) 
+			rect.width -= 100
+			if (self.orientation > 0):
+                        	rect.move_ip(100, 0)
+			col = platform.collides(rect) 
                         if col is not None:
                                 if (self.rect.y > platform.rect.y):
                                         self.rect.y = rect.y + col.height
@@ -217,6 +219,10 @@ class Hero(pygame.sprite.Sprite):
                                         self.rect.y = rect.y - col.height
                                         self.moveVector[1] = 0
                         rect = self.rect.move((self.moveVector[0], 0))
+
+			rect.width -= 100
+			if (self.orientation > 0):
+                        	rect.move_ip(100, 0)
                         col = platform.collides(rect)
                         if col is not None:
                                 if (self.rect.x < platform.rect.x):

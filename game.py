@@ -9,7 +9,7 @@ if (len(joysticks)>0):
         joystick = joysticks[0]
         print "Joystick"
 fpsClock = pygame.time.Clock()
-size = width, height = 1024, 768
+size = width, height = 640, 480
 screen = pygame.display.set_mode(size)
 global worldX, worldY
 worldX = 0
@@ -67,7 +67,7 @@ def update():
         dynamics.update(hero, platforms)
 #camera mechanics:
         global worldX, worldY
-        if (hero.rect.x - worldX > width - (width/3)):
+        if (hero.rect.x - worldX > width - (width/3)-200):
                 worldX += hero.speed
         if (hero.rect.x - worldX < width/3):
                 worldX -= hero.speed
@@ -120,7 +120,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('spiderlevel.lvl')
+loadWorld('room.lvl')
 while 1:
         getInput()
         update()
