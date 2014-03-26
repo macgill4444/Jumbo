@@ -1,4 +1,4 @@
-import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach
+import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web
 
 pygame.init()
 pygame.joystick.init()
@@ -140,6 +140,8 @@ def loadWorld(file):
                                         dynamics.add(toxicdrip.Toxicdrip(int (l[1]), int(l[2]), int(l[3]), int(l[4])))
                                 if(l[0].lower() == 'jumpingroach'):
                                         dynamics.add(jumpingroach.Jumpingroach( int (l[1]), int(l[2])))
+                                if(l[0].lower() == 'web'):
+                                        dynamics.add(web.Spiderweb(int (l[1]), int(l[2])))
                         else:
                                 coords = []
                         
