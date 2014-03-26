@@ -2,7 +2,7 @@ import pygame, characters, pyganim
 
 X_SCALE = 180
 Y_SCALE = 112
-
+STUN_COUNT = 50
 class Cockroach(pygame.sprite.Sprite):
         def __init__(self, x, y):
                 pygame.sprite.Sprite.__init__(self)
@@ -11,15 +11,20 @@ class Cockroach(pygame.sprite.Sprite):
                 self.__setAnims__()               
  
                 try:
-                        self.image = pygame.transform.scale(pygame.image.load('sprites/roach_0.png').convert_alpha(), (X_SCALE, Y_SCALE))
+                        self.rstanding = pygame.transform.scale(pygame.image.load('sprites/roach_0.png').convert_alpha(), (X_SCALE, Y_SCALE))
+                        self.lstanding = pygame.transform.flip(self.rstanding, True, False)
+
                 except:
                         self.image = pygame.Surface((X_SCALE, Y_SCALE))
-                self.rect = self.image.get_rect().move(x, y)
+                self.image = pygame.Surface((X_SCALE, Y_SCALE))
+                self.rect = self.rstanding.get_rect().move(x, y)
                 self.moveVector = [0, 0]
                 self.inAir = True
                 self.grounded = False
                 self.direction = 1
                 self.speed = 3
+                self.isHit = False
+                self.stunCount = STUN_COUNT
 
 
                 #create huge rect to see if player is on same level
@@ -53,41 +58,64 @@ class Cockroach(pygame.sprite.Sprite):
                 self.collide(platforms, hero) #make sure hero is passed here
 
                 #if cockroach is grounded and player is on platform, move to him
-                if (self.grounded == True and self.playerPlatform == True):
-                    if (self.rect.x < hero.rect.x):
-                        self.direction = 1
-                        self.rect.x += self.speed
-                    if (self.rect.x > hero.rect.x):
-                        self.direction = -1
-                        self.rect.x -= self.speed
-                elif (self.grounded == True and self.currentYPlatform != None):
-                #if roach is grounded and player is not on platform, walk around
-                    if (self.rect.x < self.currentYPlatform.rect.x):
-                        self.direction = 1
-                    if ((self.rect.x + self.rect.w) > self.currentYPlatform.rect.x + self.currentYPlatform.rect.w):
-                        self.direction = -1
-                    self.rect.x += (self.speed * self.direction)
-                        
-                #this moves cockroach downward 
-                if (self.inAir == True):
-                        self.rect.y += 4 #make this increasing constant
+                if not self.isHit:
+                    if (self.grounded == True and self.playerPlatform == True):
+                        if (self.rect.x < hero.rect.x):
+                            self.direction = 1
+                            self.rect.x += self.speed
+                        if (self.rect.x > hero.rect.x):
+                            self.direction = -1
+                            self.rect.x -= self.speed
+                    elif (self.grounded == True and self.currentYPlatform != None):
+                    #if roach is grounded and player is not on platform, walk around
+                        if (self.rect.x < self.currentYPlatform.rect.x):
+                            self.direction = 1
+                        if ((self.rect.x + self.rect.w) > self.currentYPlatform.rect.x + self.currentYPlatform.rect.w):
+                            self.direction = -1
+                        self.rect.x += (self.speed * self.direction)
+                            
+                    #this moves cockroach downward 
+                    if (self.inAir == True):
+                            self.rect.y += 4 #make this increasing constant
+
+                else:
+                    if self.stunCount > 0:
+                        self.stunCount -= 1
+                    else:
+                        self.stunCount = STUN_COUNT
+                        self.isHit = False
 
                 #update the other rectangle
                 self.rectPlayerCheck = pygame.Rect(self.rect.x - 400, (self.rect.y + self.image.get_size()[1]) - 1, (800 + self.image.get_size()[1]), 1)
                 
         def draw(self, screen, world):
               #### not appearing....
+
                 self.conductor.play()
                 if self.direction == -1:
-                    self.animObjs['right-walk'].blit(screen, self.rect.move(world))
+                    if not self.isHit:
+                        self.animObjs['right-walk'].blit(screen, self.rect.move(world))
+                    else:
+                        self.conductor.stop()
+                        screen.blit(self.rstanding, self.rect.move(world))
                 else:
-                    self.animObjs['left-walk'].blit(screen, self.rect.move(world))
+                    if not self.isHit:
+                        self.animObjs['left-walk'].blit(screen, self.rect.move(world))
+                    else:
+                        self.conductor.stop()
+                        screen.blit(self.rstanding, self.rect.move(world))
 
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
-                if (self.rect.colliderect(who.rect)):
+                if self.rect.colliderect(who.rect):
+                    if who.isHitting:
+                        self.isHit = True
+                        self.conductor.stop()
+                    elif not self.isHit:
                         who.hit(5, (self.rect.x, self.rect.y))
-                        #self.rect.x = self.rect.x + 60
+                    else:
+                        pass
+
                         
         def collide(self, platforms, hero):
                 self.platformCollide(platforms)

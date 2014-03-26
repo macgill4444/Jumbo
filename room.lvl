@@ -6,6 +6,7 @@ back.jpg
 610, 1076, 590, 100
 Enemies
 cockroach, 200, 600
+cockroach, 300, 10
 spawn, 0, 0
 drip, 550, -30, 1000, 5
 drip, 1400, -30, 900, 10
