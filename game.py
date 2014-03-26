@@ -46,10 +46,11 @@ def paint():
         #draw sprites
         for dynamic in dynamics:
                 dynamic.draw(screen, (-worldX, -worldY))
-        for platform in platforms:
-                platform.draw(screen, (-worldX, -worldY))
         #render health bar:
         hero.draw(screen, (-worldX, -worldY))
+        global endSprite, end
+        (ex, ey, st ) = end
+        screen.blit(endSprite, (ex-worldX, ey-worldY))
         pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
         pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
@@ -70,8 +71,15 @@ def getInput():
 			camY -= 10
 		else:
 			camY = 0
-	if camY > 200:
-		camY = 200
+        else:
+                if (keys[pygame.K_w]):
+                        camY -= 10
+                elif(keys[pygame.K_s]):
+                        camY += 10
+                else:
+                        camY = 100
+	if camY > 400:
+		camY = 400
 	if camY < -200:
 		camY = -200
 def update():
@@ -126,6 +134,8 @@ def loadWorld(file):
                                 if (l[0].lower() == 'end'):
                                         global end
                                         end = (int(l[1]), int (l[2]), l[3])
+                                        global endSprite
+                                        endSprite = pygame.image.load("sprites/arrow.png").convert_alpha()
                                 if (l[0].lower() == 'drip'):
                                         dynamics.add(toxicdrip.Toxicdrip(int (l[1]), int(l[2]), int(l[3]), int(l[4])))
                                 if(l[0].lower() == 'jumpingroach'):

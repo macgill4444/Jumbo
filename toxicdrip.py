@@ -47,7 +47,6 @@ class Toxicdrip(pygame.sprite.Sprite):
             if self.splatcount > 0:
                 self.splatcount -= 1
             else:
-                print "reset"
                 self.splatcount = 10
                 self.rect.x = self.orig_x
                 self.rect.y = self.orig_y

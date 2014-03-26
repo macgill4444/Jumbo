@@ -118,16 +118,16 @@ class Hero(pygame.sprite.Sprite):
                 if not keys[pygame.K_j] and not self.inAir:
                     self.canJump = True
 
+
                 # hitting
                 if (swing and self.hitCounter == HIT_TIME and not self.isHitting):
-                    print "HIT"
                     self.isHitting = True
                 elif ((not keys[pygame.K_k]) and self.hitCounter <= 0): # reset
-                    print "RESET"
                     self.isHitting = False
                     self.hitCounter = HIT_TIME
+                elif ((keys[pygame.K_k]) and self.hitCounter <= 0): # reset
+                    self.isHitting = False
                 elif (self.isHitting):
-                    "HITTING"
                     self.hitCounter -= 1
 
                 self.moveVector[1] += 1
