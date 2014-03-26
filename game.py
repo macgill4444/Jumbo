@@ -11,9 +11,13 @@ if (len(joysticks)>0):
 fpsClock = pygame.time.Clock()
 size = width, height = 640, 480
 screen = pygame.display.set_mode(size)
-global worldX, worldY
+global worldX, worldY, camX, camY
 worldX = 0
 worldY = 0
+camX = 0
+camY = 0
+offX = 0
+offY = 0
 global end
 global curlevel
 end = (1000000000, 1000000000000, "")
@@ -28,7 +32,11 @@ dynamics = pygame.sprite.Group()
 def paint():
         screen.fill(16777215)
         #otherScreen = pygame.Surface((3000, 1000))
-        global worldX, worldY
+        global worldX, worldY, camX, camY
+	ox = worldX
+	oy = worldY
+	worldX += camX
+	worldY += camY
         #prevent the world from scrolling out of screen
         if worldX < 0:
                 worldX = 0
@@ -38,20 +46,42 @@ def paint():
         #draw sprites
         for dynamic in dynamics:
                 dynamic.draw(screen, (-worldX, -worldY))
-        for platform in platforms:
-                platform.draw(screen, (-worldX, -worldY))
         #render health bar:
         hero.draw(screen, (-worldX, -worldY))
+        global endSprite, end
+        (ex, ey, st ) = end
+        screen.blit(endSprite, (ex-worldX, ey-worldY))
         pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
         pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
         pygame.display.flip()
+        worldX = ox
+	worldY = oy
+
 def getInput():
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
         keys = pygame.key.get_pressed()
         hero.move(keys, joystick)
-        
+	global camX, camY
+	if (joystick):
+		if (joystick.get_axis(1) > 0):
+			camY +=10
+		elif (joystick.get_axis(1) < 0):
+			camY -= 10
+		else:
+			camY = 0
+        else:
+                if (keys[pygame.K_w]):
+                        camY -= 10
+                elif(keys[pygame.K_s]):
+                        camY += 10
+                else:
+                        camY = 100
+	if camY > 400:
+		camY = 400
+	if camY < -200:
+		camY = -200
 def update():
         global end
         endx, endy, endname = end
@@ -75,6 +105,7 @@ def update():
                 worldY -= 5
         if (hero.rect.y - worldY > height - (height / 3)):
                 worldY += 5
+	
 
 def loadWorld(file):
         global curlevel
@@ -103,6 +134,8 @@ def loadWorld(file):
                                 if (l[0].lower() == 'end'):
                                         global end
                                         end = (int(l[1]), int (l[2]), l[3])
+                                        global endSprite
+                                        endSprite = pygame.image.load("sprites/arrow.png").convert_alpha()
                                 if (l[0].lower() == 'drip'):
                                         dynamics.add(toxicdrip.Toxicdrip(int (l[1]), int(l[2]), int(l[3]), int(l[4])))
                                 if(l[0].lower() == 'jumpingroach'):

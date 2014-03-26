@@ -63,8 +63,8 @@ class Toxicdrip(pygame.sprite.Sprite):
             
     def hitHero(self, hero):
         #if the drop hits the player it needs to hurt him
-        hero.health = hero.health - 10
-        self.explode()
+        hero.hit(10, 0)
+	self.explode()
 
     def explode(self):
         # set counter to reset the x and y coordinates after splatter animation

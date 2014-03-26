@@ -12,4 +12,4 @@ drip, 550, -30, 1000, 5
 drip, 1400, -30, 900, 10
 drip, 550, 50, 1000, 5
 end, 1000, 1000, spiderlevel.lvl
-jumpingroach, 500, 600
+jumpingroach, 450, 120 
