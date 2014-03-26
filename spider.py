@@ -49,7 +49,7 @@ class Spider(pygame.sprite.Sprite):
                         ray = pygame.rect.Rect(self.rect.center, (1, 200)).move(0, -200)
                         if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0 and self.rect.y < hero.rect.y):
                                 self.climbing = False
-                                if random.random() * 5 > 3:
+                                if random.random() * 5 > 2:
                                         self.drop.play()
                                 self.image = self.groundimage
                                 self.rect = self.image.get_rect().move(self.rect.x, self.rect.y)
