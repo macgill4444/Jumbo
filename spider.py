@@ -28,6 +28,15 @@ class Spider(pygame.sprite.Sprite):
                          ('sprites/climb_0.png', 0.08),
                          ('sprites/climb_-1.png', 0.08),
                         ])
+                self.animObjs['left'] = pyganim.PygAnimation(
+                        [('sprites/spider_0.png', 0.08),
+                         ('sprites/spider_1.png', 0.09),
+                         ('sprites/spider_0.png', 0.08),
+                         ('sprites/spider_-1.png', 0.08),
+                        ])
+                self.animObjs['right'] = self.animObjs['left'].getCopy()
+                self.animObjs['right'].flip(True, False) # (boolx, booly)
+                self.animObjs['right'].makeTransformsPermanent()
 
                 self.conductor = pyganim.PygConductor(self.animObjs)
 
@@ -63,8 +72,9 @@ class Spider(pygame.sprite.Sprite):
                         self.conductor.play()
                         self.animObjs['climb'].blit(screen, self.rect.move(world))
                 else:
-                        self.conductor.stop()
-                        screen.blit(self.groundimage, self.rect.move(world).inflate(-5, -5))
+                        self.conductor.play()
+                        self.animObjs['left'].blit(screen, self.rect.move(world))
+                        #screen.blit(self.groundimage, self.rect.move(world).inflate(-5, -5))
 
         def entityCollide(self, someshit):
                 pass
