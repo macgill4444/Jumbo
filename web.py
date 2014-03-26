@@ -12,12 +12,16 @@ class Spiderweb(pygame.sprite.Sprite):
 
 
     def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
         self.image = self.load_image('assets/web.jpeg')
         self.rect = self.image.get_rect().move(x, y)
         
     def update(self, hero, platform):
         if self.rect.colliderect(hero.rect):
-            caughtHero(hero)
+            hero.inWeb = True
+            self.caughtHero(hero)
+        else:
+            hero.inWeb = False
 
     def draw(self, screen, world):
         draw_pos = self.rect
@@ -26,8 +30,13 @@ class Spiderweb(pygame.sprite.Sprite):
     def caughtHero(self, hero):
         #still need to work on this, hero should not be able to move if caught
         #in web
-        hero.moveVector[1] = 2
-    
+        if hero.moveVector[1] < -14:
+            hero.moveVector[1] = -14
+        if hero.moveVector[0] > 3 or hero.moveVector[0] < -3:
+            hero.moveVector[0] *= .0002
+                    
+    def entityCollide(self, someBULLshit):
+        pass
 
 if __name__ == "__main__":
 
