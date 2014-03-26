@@ -26,6 +26,8 @@ class Cockroach(pygame.sprite.Sprite):
                 self.isHit = False
                 self.stunCount = STUN_COUNT
 
+                self.jumped = False
+
 
                 #create huge rect to see if player is on same level
                 self.rectPlayerCheck = pygame.Rect(x - 400, (y + self.image.get_size()[1]) - 1, (800 + self.image.get_size()[1]), 1) 
@@ -142,7 +144,7 @@ class Cockroach(pygame.sprite.Sprite):
                             if (self.rect.y > platform.rect.y):
                                 self.rect.y = recty.y + col.height
                                 self.moveVector[1] = 0
-                            if (self.rect.y < platform.rect.y):
+                            if (self.rect.y < platform.rect.y and self.jumped == False):
                                 self.inAir = False
                                 self.grounded = True
                                 self.rect.y = recty.y - col.height
