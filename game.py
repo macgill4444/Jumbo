@@ -65,9 +65,9 @@ def getInput():
         hero.move(keys, joystick)
 	global camX, camY
 	if (joystick):
-		if (joystick.get_axis(1) > 0):
+		if (joystick.get_axis(1) > 0.5):
 			camY +=10
-		elif (joystick.get_axis(1) < 0):
+		elif (joystick.get_axis(1) < -0.5):
 			camY -= 10
 		else:
 			camY = 100
@@ -102,9 +102,9 @@ def update():
         if (hero.rect.x - worldX < width/3):
                 worldX -= hero.speed
         if (hero.rect.y - worldY < (height/5)):
-                worldY -= 5
+                worldY -= 15
         if (hero.rect.y - worldY > height - (height / 3)):
-                worldY += 5
+                worldY += 15
 	
 
 def loadWorld(file):
