@@ -110,6 +110,8 @@ class Cockroach(pygame.sprite.Sprite):
 
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
+
+                ### NEED TO EXTEND RECTANGLE FOR WHEN MOUSE IS HITTING
                 if self.rect.colliderect(who.rect):
                     if who.isHitting:
                         self.isHit = True
