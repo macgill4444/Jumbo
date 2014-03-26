@@ -81,6 +81,7 @@ class Hero(pygame.sprite.Sprite):
                 right = keys[pygame.K_d]
                 jump = keys[pygame.K_j]
                 swing = keys[pygame.K_k]
+                self.inWeb = False
 
                 if (joystick is not None):
                         left = joystick.get_axis(0) < 0
@@ -111,13 +112,13 @@ class Hero(pygame.sprite.Sprite):
                         else:
                             self.moveVector[0] = 0
 
+
                 if (jump and not self.inAir):
                     if (self.canJump):
                         self.moveVector[1] = -24
                     self.canJump = False
                 if not keys[pygame.K_j] and not self.inAir:
                     self.canJump = True
-
 
                 # hitting
                 if (swing and self.hitCounter == HIT_TIME and not self.isHitting):
@@ -131,6 +132,7 @@ class Hero(pygame.sprite.Sprite):
                     self.hitCounter -= 1
 
                 self.moveVector[1] += 1
+                        
                 if (self.moveVector[0] > self.speed):
                     self.moveVector[0] = self.speed
                 if (self.moveVector[0] < -self.speed):
