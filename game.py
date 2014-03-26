@@ -70,14 +70,20 @@ def getInput():
 		elif (joystick.get_axis(1) < -0.5):
 			camY -= 10
 		else:
-			camY = 100
+			if camY > 103:
+                                camY -= 15
+                        if camY < 97:
+                                camY += 15
         else:
                 if (keys[pygame.K_w]):
                         camY -= 10
                 elif(keys[pygame.K_s]):
                         camY += 10
                 else:
-                        camY = 100
+                        if camY > 103:
+                                camY -= 15
+                        if camY < 97:
+                                camY += 15
 	if camY > 400:
 		camY = 400
 	if camY < -200:
