@@ -16,7 +16,7 @@ class Spider(pygame.sprite.Sprite):
                 self.climbing = False
                 self.image = self.groundimage
                 self.rect = self.image.get_rect().move(x,y)
-                self.speed = 8
+                self.speed = 18
 
         def __setAnims__(self):
                 self.animObjs = {}
