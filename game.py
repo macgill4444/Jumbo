@@ -10,7 +10,7 @@ if (len(joysticks)>0):
         joystick = joysticks[0]
         print "Joystick"
 fpsClock = pygame.time.Clock()
-size = width, height = 640, 480
+size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 global worldX, worldY, camX, camY
 worldX = 0
