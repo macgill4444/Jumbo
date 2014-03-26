@@ -46,13 +46,11 @@ def paint():
         #draw sprites
         for dynamic in dynamics:
                 dynamic.draw(screen, (-worldX, -worldY))
-        for platform in platforms:
-                platform.draw(screen, (-worldX, -worldY))
         #render health bar:
         hero.draw(screen, (-worldX, -worldY))
         global endSprite, end
         (ex, ey, st ) = end
-        screen.blit(endSprite, pygame.rect.Rect(ex, ey, 100, 100))
+        screen.blit(endSprite, (ex-worldX, ey-worldY))
         pygame.draw.rect(screen, 0, pygame.rect.Rect(40, 40, 40, 100))
         pygame.draw.rect(screen, (0, 255, 0), pygame.rect.Rect(45, 140 - hero.health, 30, hero.health))
         # render the game world to the screen
