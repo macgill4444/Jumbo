@@ -1,4 +1,4 @@
-import pygame, characters, pyganim
+import pygame, characters, pyganim, random
 
 class Spider(pygame.sprite.Sprite):
         def __init__(self, x, y):
@@ -17,6 +17,8 @@ class Spider(pygame.sprite.Sprite):
                 self.image = self.groundimage
                 self.rect = self.image.get_rect().move(x,y)
                 self.speed = 18
+                self.sound = pygame.mixer.Sound("sound/skitter.wav")
+                self.drop = pygame.mixer.Sound("sound/spider_drop.wav")
 
         def __setAnims__(self):
                 self.animObjs = {}
@@ -36,8 +38,10 @@ class Spider(pygame.sprite.Sprite):
                         else:
                                 self.rect.move_ip(-self.speed, 0)
                         ray = pygame.rect.Rect(self.rect.center, (1, 200)).move(0, -200)
-                        if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0):
+                        if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0 and self.rect.y < hero.rect.y):
                                 self.climbing = False
+                                if random.random() * 5 > 3:
+                                        self.drop.play()
                                 self.image = self.groundimage
                                 self.rect = self.image.get_rect().move(self.rect.x, self.rect.y)
                         else:

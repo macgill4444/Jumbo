@@ -2,6 +2,7 @@ import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach,
 
 pygame.init()
 pygame.joystick.init()
+pygame.mixer.init()
 joystick = None
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 if (len(joysticks)>0):
@@ -163,7 +164,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('room.lvl')
+loadWorld('softserve.lvl')
 while 1:
         getInput()
         update()
