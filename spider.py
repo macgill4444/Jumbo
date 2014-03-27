@@ -69,7 +69,7 @@ class Spider(pygame.sprite.Sprite):
                 else:
                         ray = pygame.rect.Rect(self.rect.center, (1, 55))
                         if (ray.colliderect(hero.rect)):
-                                hero.hit(101, self)
+                                hero.hit(51, self)
                         if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0):
                                 self.climbing = True
                                 #self.image = self.wallimage
