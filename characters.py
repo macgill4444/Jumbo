@@ -19,6 +19,7 @@ class Hero(pygame.sprite.Sprite):
                 self.inAir = True
                 self.canJump = True
                 self.hasSpoon = False
+                self.spoonRect = self.rect.copy()
                 self.isHitting = False
                 self.hitCounter = HIT_TIME
                 self.speed = 9
@@ -165,6 +166,9 @@ class Hero(pygame.sprite.Sprite):
                                 self.conductor.play()
                                 self.animObjs['right-hit'].blit(screen, self.rect.move(world).move(0,-70))
                                 self.isHitting = True
+                                self.spoonRect.x = self.rect.x + 200
+                                self.spoonRect.y = self.rect.y
+                                print "x:%i spoonx:%i" %(self.rect.x, self.spoonRect.x)
                         elif self.moveVector[0] == 0 and not self.inAir: # standing still
                                 self.conductor.stop()
                                 screen.blit(self.right_standing, self.rect.move(world))
@@ -181,6 +185,10 @@ class Hero(pygame.sprite.Sprite):
                                 self.conductor.play()
                                 self.animObjs['left-hit'].blit(screen, self.rect.move(world).move(-80,-70))
                                 self.isHitting = True
+                                self.spoonRect.x = self.rect.x - 200
+                                self.spoonRect.y = self.rect.y
+                                print "x:%i spoonx:%i" %(self.rect.x, self.spoonRect.x)
+
                         elif self.moveVector[0] == 0 and not self.inAir: # standing still
                                 self.conductor.stop()
                                 screen.blit(self.left_standing, self.rect.move(world))
@@ -207,10 +215,10 @@ class Hero(pygame.sprite.Sprite):
                 grounded = False
                 for platform in platforms:
                         rect = self.rect.move((0, self.moveVector[1]))
-			rect.width -= 100
-			if (self.orientation > 0):
-                        	rect.move_ip(100, 0)
-			col = platform.collides(rect) 
+            rect.width -= 100
+            if (self.orientation > 0):
+                            rect.move_ip(100, 0)
+            col = platform.collides(rect) 
                         if col is not None:
                                 if (self.rect.y > platform.rect.y):
                                         self.rect.y = rect.y + col.height
@@ -223,9 +231,9 @@ class Hero(pygame.sprite.Sprite):
                                         self.moveVector[1] = 0
                         rect = self.rect.move((self.moveVector[0], 0))
 
-			rect.width -= 100
-			if (self.orientation > 0):
-                        	rect.move_ip(100, 0)
+            rect.width -= 100
+            if (self.orientation > 0):
+                            rect.move_ip(100, 0)
                         col = platform.collides(rect)
                         if col is not None:
                                 if (self.rect.x < platform.rect.x):
