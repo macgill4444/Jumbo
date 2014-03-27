@@ -136,6 +136,9 @@ def loadWorld(file):
         dynamics.empty()
         platforms.empty()
         global chiptunes
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(chiptunes[file])
+        pygame.mixer.music.play(-1)
         try:
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load(chiptunes[file])
@@ -206,14 +209,13 @@ try:
 except:
         print "Cannot get menu music"
 
-#screen.blit(menu, (0, 0))
-#pygame.display.flip()
 pygame.mixer.music.play(-1)
 intro = True
 menu.play()
 menu.blit(screen, (0,0))
 pygame.display.flip()
 
+# menu
 while intro:
         screen.fill(16777215)
         for event in pygame.event.get():
@@ -221,11 +223,23 @@ while intro:
                         intro = False
                         pygame.mixer.music.stop()
                         menu.stop()
+                if event.type == pygame.QUIT: sys.exit()
                 
         menu.play()
         menu.blit(screen, (0,0))
         pygame.display.update()
 
+# intro cutscene
+scene = True
+background = pygame.image.load('assets/drop.jpg')
+while scene:
+        screen.fill(16777215)
+        #screen.blit(background, (0,0))
+        pygame.display.update()
+        pygame.display.flip()
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT: sys.exit()
+        fpsClock.tick(60)
 
 loadWorld('tutorial.lvl')
 
