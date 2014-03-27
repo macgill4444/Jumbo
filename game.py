@@ -218,7 +218,7 @@ while intro:
         pygame.display.update()
 
 
-loadWorld('softserve.lvl')
+loadWorld('tutorial.lvl')
 pygame.mixer.Sound('chiptunes/level.wav').play(-1)
 while 1:
         getInput()
