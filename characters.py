@@ -168,7 +168,7 @@ class Hero(pygame.sprite.Sprite):
                                 self.isHitting = True
                                 self.spoonRect.x = self.rect.x + 200
                                 self.spoonRect.y = self.rect.y
-                                print "x:%i spoonx:%i" %(self.rect.x, self.spoonRect.x)
+                                #print "x:%i spoonx:%i" %(self.rect.x, self.spoonRect.x)
                         elif self.moveVector[0] == 0 and not self.inAir: # standing still
                                 self.conductor.stop()
                                 screen.blit(self.right_standing, self.rect.move(world))
@@ -187,7 +187,7 @@ class Hero(pygame.sprite.Sprite):
                                 self.isHitting = True
                                 self.spoonRect.x = self.rect.x - 200
                                 self.spoonRect.y = self.rect.y
-                                print "x:%i spoonx:%i" %(self.rect.x, self.spoonRect.x)
+                                #print "x:%i spoonx:%i" %(self.rect.x, self.spoonRect.x)
 
                         elif self.moveVector[0] == 0 and not self.inAir: # standing still
                                 self.conductor.stop()
