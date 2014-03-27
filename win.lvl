@@ -3,3 +3,4 @@ Enemies
 cutscene, 10000
 spawn, 636, 475
 end, 636, 900, room.lvl
+hawk, 0, 0
