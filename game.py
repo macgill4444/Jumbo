@@ -234,6 +234,10 @@ while intro:
 scene = True
 background = pygame.image.load('sprites/intro-image.jpg')
 backgroundpos = [0,-50]
+
+
+pygame.mixer.music.load("chiptunes/intro.wav")
+pygame.mixer.music.play(-1)
 while scene:
         screen.fill(16777215)
         print backgroundpos
@@ -252,9 +256,10 @@ while scene:
                 if event.type == pygame.QUIT: sys.exit()
                 elif event.type == KEYDOWN:
                     scene = False
+                    pygame.mixer.music.stop()
         fpsClock.tick(60)
 
-loadWorld('win.lvl')
+loadWorld('tutorial.lvl')
 
 
 
