@@ -240,7 +240,6 @@ pygame.mixer.music.load("chiptunes/intro.wav")
 pygame.mixer.music.play(-1)
 while scene:
         screen.fill(16777215)
-        print backgroundpos
         screen.blit(background, backgroundpos)
         if backgroundpos[0] > -620:
             backgroundpos[0] -= 1.3
