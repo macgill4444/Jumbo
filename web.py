@@ -13,7 +13,7 @@ class Spiderweb(pygame.sprite.Sprite):
 
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = self.load_image('assets/web.jpeg')
+        self.image = self.load_image('assets/web.png')
         self.rect = self.image.get_rect().move(x, y)
         
     def update(self, hero, platform):
