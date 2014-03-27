@@ -257,7 +257,7 @@ while scene:
                 elif event.type == KEYDOWN:
                     scene = False
                     pygame.mixer.music.stop()
-        fpsClock.tick(60)
+        fpsClock.tick(30)
 
 loadWorld('tutorial.lvl')
 
