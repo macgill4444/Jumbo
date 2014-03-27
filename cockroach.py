@@ -113,8 +113,6 @@ class Cockroach(pygame.sprite.Sprite):
                 #if collision between mouse and cockroach, health decre by 5
 
                 ### NEED TO EXTEND RECTANGLE FOR WHEN MOUSE IS HITTING
-                print "cock %i" % self.direction
-                print "mouse %i" % who.orientation
 
                 if who.isHitting and self.direction == (-1)*who.orientation:
                     if self.rect.colliderect(who.spoonRect):
