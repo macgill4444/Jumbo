@@ -136,9 +136,12 @@ def loadWorld(file):
         dynamics.empty()
         platforms.empty()
         global chiptunes
-        pygame.mixer.music.stop()
-        pygame.mixer.music.load(chiptunes[file])
-        pygame.mixer.music.play(-1)
+        try:
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load(chiptunes[file])
+                pygame.mixer.music.play(-1)
+        except:
+                pass
         enemies = False
         for line in f:
                 if (line[0] == 'E'):
