@@ -1,4 +1,4 @@
-import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web, dieroach, pyganim
+import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web, dieroach, pyganim, hawk
 from pygame.locals import *
 
 pygame.init()
@@ -172,6 +172,9 @@ def loadWorld(file):
                                         dynamics.add(web.Spiderweb(int (l[1]), int(l[2])))
                                 if(l[0].lower() == 'dieroach'):
                                         dynamics.add(dieroach.Dieroach(int(l[1]), int(l[2])))
+                                if(l[0].lower() == 'hawk'):
+                                        print "hawk"
+                                        dynamics.add(hawk.Hawk())
                                 if(l[0].lower() == 'cutscene'):
                                         global cutscene
                                         cutscene = int(l[1])
@@ -251,7 +254,7 @@ while scene:
                     scene = False
         fpsClock.tick(60)
 
-loadWorld('tutorial.lvl')
+loadWorld('win.lvl')
 
 
 
