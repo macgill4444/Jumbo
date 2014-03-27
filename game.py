@@ -34,7 +34,7 @@ dynamics = pygame.sprite.Group()
 #background is the current background image
 chiptunes = {'spiderlevel.lvl':'chiptunes/boss.wav', 
             'softserve.lvl':'chiptunes/level2.wav',
-            'dewicklvl.lvl':'chiptunes/level2.wav',  
+            'dewicklvl.lvl':'chiptunes/level3.wav',  
             'tutorial.lvl': 'chiptunes/level.wav'}
 
 def paint():
@@ -229,10 +229,20 @@ while intro:
 
 # intro cutscene
 scene = True
-background = pygame.image.load('assets/drop.jpg')
+background = pygame.image.load('sprites/intro-image.jpg')
+backgroundpos = [0,-50]
 while scene:
         screen.fill(16777215)
-        screen.blit(background, (0,0))
+        print backgroundpos
+        screen.blit(background, backgroundpos)
+        if backgroundpos[0] > -620:
+            backgroundpos[0] -= 1.3
+            backgroundpos[1] -= 0.5
+        elif backgroundpos[0] > -900:
+            backgroundpos[0] -= 0.9
+        else:
+            pass
+
         pygame.display.update()
         pygame.display.flip()
         for event in pygame.event.get():
