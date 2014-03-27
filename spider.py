@@ -16,7 +16,7 @@ class Spider(pygame.sprite.Sprite):
                 self.climbing = False
                 self.image = self.groundimage
                 self.rect = self.image.get_rect().move(x,y)
-                self.speed = 18
+                self.speed = 10
                 self.sound = pygame.mixer.Sound("sound/skitter.wav")
                 self.drop = pygame.mixer.Sound("sound/spider_drop.wav")
                 self.state = 0

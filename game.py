@@ -112,15 +112,16 @@ def update():
         hero.update(dynamics)
         dynamics.update(hero, platforms)
 #camera mechanics:
-        global worldX, worldY
-        if (hero.rect.x - worldX > width - (width/3)-(200) - (200 * hero.orientation)):
-                worldX += hero.speed
-        if (hero.rect.x - worldX < width/3 - 200 * hero.orientation):
-                worldX -= hero.speed 
-        if (hero.rect.y - worldY < (height/5)):
-                worldY -= 15
-        if (hero.rect.y - worldY > height - (height / 3)):
-                worldY += 15
+        if cutscene < 0:
+                global worldX, worldY
+                if (hero.rect.x - worldX > width - (width/3)-(200) - (200 * hero.orientation)):
+                        worldX += hero.speed
+                if (hero.rect.x - worldX < width/3 - 200 * hero.orientation):
+                        worldX -= hero.speed 
+                if (hero.rect.y - worldY < (height/5)):
+                        worldY -= 15
+                if (hero.rect.y - worldY > height - (height / 3)):
+                        worldY += 15
 	
 
 def loadWorld(file):
@@ -217,7 +218,7 @@ while intro:
         pygame.display.update()
 
 
-loadWorld('spiderlevel.lvl')
+loadWorld('softserve.lvl')
 while 1:
         getInput()
         update()
