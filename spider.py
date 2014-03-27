@@ -20,7 +20,7 @@ class Spider(pygame.sprite.Sprite):
                 self.sound = pygame.mixer.Sound("sound/skitter.wav")
                 self.drop = pygame.mixer.Sound("sound/spider_drop.wav")
                 self.state = 0
-                self.counter = 1000
+                self.counter = 400
         def __setAnims__(self):
                 self.animObjs = {}
                 self.animObjs['climb'] = pyganim.PygAnimation(
@@ -45,6 +45,7 @@ class Spider(pygame.sprite.Sprite):
                 if self.counter < 0:
                         self.state= 1
                         self.climbing = False
+                        self.drop.play()
         def update(self, hero, platforms):
                 if self.state == 1:
                         self.normalupdate(hero, platforms)

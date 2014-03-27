@@ -2,7 +2,9 @@ back.jpg
 0, -500, 6000, 100
 0, 400, 6000, 100
 Enemies
-spider, 50, -400
-spawn, 500, 90
+spider, 900, -400
+spawn, 500, 200
 end, 5000, 150, room.lvl
-cutscene, 1000
+cutscene, 400
+dieroach, 1000, 200
+dieroach, 1200, 200

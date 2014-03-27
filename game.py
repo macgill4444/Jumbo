@@ -1,4 +1,4 @@
-import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web
+import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web, dieroach
 
 pygame.init()
 pygame.joystick.init()
@@ -68,6 +68,8 @@ def getInput():
         global cutscene
         if cutscene < 0:
                 hero.move(keys, joystick)
+        else:
+                hero.moveVector=[0, 0]
 	global camX, camY
 	if (joystick):
 		if (joystick.get_axis(1) > 0.5):
