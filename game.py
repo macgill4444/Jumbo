@@ -219,6 +219,7 @@ while intro:
 
 
 loadWorld('softserve.lvl')
+pygame.mixer.Sound('chiptunes/level.wav').play(-1)
 while 1:
         getInput()
         update()
