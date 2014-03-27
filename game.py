@@ -48,6 +48,8 @@ def paint():
         #prevent the world from scrolling out of screen
         if worldX < 0:
                 worldX = 0
+        if worldY < 0:
+                worldY = 0
         #set the rendering area for the rendering buffer to the area currently
         #visible on screen
         screen.blit(background, pygame.rect.Rect(-worldX, -worldY, width, height))
