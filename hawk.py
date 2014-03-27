@@ -5,15 +5,10 @@ class Hawk(pygame.sprite.Sprite):
                 pygame.sprite.Sprite.__init__(self)
 
                 try:
-                        self.groundimage = pygame.image.load('sprites/spider_0.png').convert_alpha()
-                        self.image = pygame.image.load('sprites/spider_0.png').convert_alpha()
+                        self.image = pygame.image.load('sprites/hawk.png').convert_alpha()
                 except:
-                        self.groundimage = pygame.Surface((400, 100))
-                        self.wallimage = pygame.Surface((400,400))
-                        self.groundimage.fill(0)
-                        self.wallimage.fill(0)
+                        pass
                 self.climbing = False
-                self.image = self.groundimage
                 self.rect = self.image.get_rect()
                 self.speed = 10
                 self.state = 0
@@ -27,8 +22,8 @@ class Hawk(pygame.sprite.Sprite):
                 self.dy -= 0.5
                 self.dx += 1
                 if self.rect.x >= 400:
-                        hero.rect.x = self.rect.x + 200
-                        hero.rect.y = self.rect.y + 200
+                        hero.rect.x = self.rect.x + 300
+                        hero.rect.y = self.rect.y + 300
         def draw(self, screen, world):
                 screen.blit(self.image, self.rect)
         def entityCollide(self, something):
