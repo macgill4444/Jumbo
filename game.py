@@ -223,7 +223,7 @@ while intro:
                         intro = False
                         pygame.mixer.music.stop()
                         menu.stop()
-                if event.type == pygame.QUIT: sys.exit()
+                elif event.type == pygame.QUIT: sys.exit()
                 
         menu.play()
         menu.blit(screen, (0,0))
@@ -234,11 +234,13 @@ scene = True
 background = pygame.image.load('assets/drop.jpg')
 while scene:
         screen.fill(16777215)
-        #screen.blit(background, (0,0))
+        screen.blit(background, (0,0))
         pygame.display.update()
         pygame.display.flip()
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
+                elif event.type == KEYDOWN:
+                    scene = False
         fpsClock.tick(60)
 
 loadWorld('tutorial.lvl')
