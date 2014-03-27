@@ -12,7 +12,7 @@ levels/dewickboss.JPG
 Enemies
 spider, 680, 300
 spawn, 0, 884
-end, 4284, 296, "win.lvl"
+end, 4284, 296, win.lvl
 cutscene, 400
 dieroach, 680, 860
 dieroach, 1200, 884
