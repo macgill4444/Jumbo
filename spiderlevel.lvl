@@ -15,7 +15,7 @@ spawn, 0, 884
 end, 4284, 296, win.lvl
 cutscene, 400
 dieroach, 680, 860
-dieroach, 1200, 884
+dieroach, 500, 884
 web, 2812, 868
 web, 3000, 800
 web, 3200, 700
