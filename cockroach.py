@@ -106,17 +106,22 @@ class Cockroach(pygame.sprite.Sprite):
                         self.animObjs['left-walk'].blit(screen, self.rect.move(world))
                     else:
                         self.conductor.stop()
-                        screen.blit(self.rstanding, self.rect.move(world))
+                        screen.blit(self.lstanding, self.rect.move(world))
+
 
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
 
                 ### NEED TO EXTEND RECTANGLE FOR WHEN MOUSE IS HITTING
-                if self.rect.colliderect(who.rect):
-                    if who.isHitting:
+                print "cock %i" % self.direction
+                print "mouse %i" % who.orientation
+
+                if who.isHitting and self.direction == (-1)*who.orientation:
+                    if self.rect.colliderect(who.spoonRect):
                         self.isHit = True
                         self.conductor.stop()
-                    elif not self.isHit:
+                elif self.rect.colliderect(who.rect):
+                    if not self.isHit:
                         who.hit(5, (self.rect.x, self.rect.y))
                     else:
                         pass
