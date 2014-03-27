@@ -5,14 +5,30 @@ back.jpg
 954, 818, 590, 100
 610, 1076, 590, 100
 Enemies
+<<<<<<< HEAD
+=======
 cockroach, 200, 900
 cockroach, 2000, 10
+>>>>>>> b5a111865f0b4ceefdd31c21231e3b204401ee81
 spawn, 0, 0
 drip, 550, -30, 1000, 5
 drip, 1400, -30, 900, 10
 drip, 550, 50, 1000, 5
 end, 1000, 1000, spiderlevel.lvl
+<<<<<<< HEAD
+jumpingroach, 1000, 500 
+web, 100, 100
+
+=======
 web, 100, 100
 web, 150, 50
 web, 170, 0
+<<<<<<< HEAD
 jumpingroach, 200, 20
+=======
+<<<<<<< HEAD
+jumpingroach, 100, 00
+=======
+>>>>>>> b5a111865f0b4ceefdd31c21231e3b204401ee81
+>>>>>>> 8fbe3efaaff7148669cad9ac1ada2cb1f6a7cfd1
+>>>>>>> f89a0016f8aa967917ddc93f3edc864b5924745b

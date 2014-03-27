@@ -1,4 +1,4 @@
-import pygame, characters, pyganim
+import pygame, characters, pyganim, random
 
 class Spider(pygame.sprite.Sprite):
         def __init__(self, x, y):
@@ -16,7 +16,9 @@ class Spider(pygame.sprite.Sprite):
                 self.climbing = False
                 self.image = self.groundimage
                 self.rect = self.image.get_rect().move(x,y)
-                self.speed = 8
+                self.speed = 18
+                self.sound = pygame.mixer.Sound("sound/skitter.wav")
+                self.drop = pygame.mixer.Sound("sound/spider_drop.wav")
 
         def __setAnims__(self):
                 self.animObjs = {}
@@ -26,6 +28,15 @@ class Spider(pygame.sprite.Sprite):
                          ('sprites/climb_0.png', 0.08),
                          ('sprites/climb_-1.png', 0.08),
                         ])
+                self.animObjs['left'] = pyganim.PygAnimation(
+                        [('sprites/spider_0.png', 0.08),
+                         ('sprites/spider_1.png', 0.09),
+                         ('sprites/spider_0.png', 0.08),
+                         ('sprites/spider_-1.png', 0.08),
+                        ])
+                self.animObjs['right'] = self.animObjs['left'].getCopy()
+                self.animObjs['right'].flip(True, False) # (boolx, booly)
+                self.animObjs['right'].makeTransformsPermanent()
 
                 self.conductor = pyganim.PygConductor(self.animObjs)
 
@@ -36,8 +47,10 @@ class Spider(pygame.sprite.Sprite):
                         else:
                                 self.rect.move_ip(-self.speed, 0)
                         ray = pygame.rect.Rect(self.rect.center, (1, 200)).move(0, -200)
-                        if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0):
+                        if (len(filter((lambda x: ray.colliderect(x.rect)), platforms)) > 0 and self.rect.y < hero.rect.y):
                                 self.climbing = False
+                                if random.random() * 5 > 2:
+                                        self.drop.play()
                                 self.image = self.groundimage
                                 self.rect = self.image.get_rect().move(self.rect.x, self.rect.y)
                         else:
@@ -59,8 +72,9 @@ class Spider(pygame.sprite.Sprite):
                         self.conductor.play()
                         self.animObjs['climb'].blit(screen, self.rect.move(world))
                 else:
-                        self.conductor.stop()
-                        screen.blit(self.groundimage, self.rect.move(world).inflate(-5, -5))
+                        self.conductor.play()
+                        self.animObjs['left'].blit(screen, self.rect.move(world))
+                        #screen.blit(self.groundimage, self.rect.move(world).inflate(-5, -5))
 
         def entityCollide(self, someshit):
                 pass

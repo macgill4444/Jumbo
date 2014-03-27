@@ -2,6 +2,7 @@ import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach,
 
 pygame.init()
 pygame.joystick.init()
+pygame.mixer.init()
 joystick = None
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 if (len(joysticks)>0):
@@ -9,7 +10,7 @@ if (len(joysticks)>0):
         joystick = joysticks[0]
         print "Joystick"
 fpsClock = pygame.time.Clock()
-size = width, height = 640, 480
+size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 global worldX, worldY, camX, camY
 worldX = 0
@@ -65,19 +66,25 @@ def getInput():
         hero.move(keys, joystick)
 	global camX, camY
 	if (joystick):
-		if (joystick.get_axis(1) > 0):
+		if (joystick.get_axis(1) > 0.5):
 			camY +=10
-		elif (joystick.get_axis(1) < 0):
+		elif (joystick.get_axis(1) < -0.5):
 			camY -= 10
 		else:
-			camY = 0
+			if camY > 103:
+                                camY -= 15
+                        if camY < 97:
+                                camY += 15
         else:
                 if (keys[pygame.K_w]):
                         camY -= 10
                 elif(keys[pygame.K_s]):
                         camY += 10
                 else:
-                        camY = 100
+                        if camY > 103:
+                                camY -= 15
+                        if camY < 97:
+                                camY += 15
 	if camY > 400:
 		camY = 400
 	if camY < -200:
@@ -102,9 +109,9 @@ def update():
         if (hero.rect.x - worldX < width/3):
                 worldX -= hero.speed
         if (hero.rect.y - worldY < (height/5)):
-                worldY -= 5
+                worldY -= 15
         if (hero.rect.y - worldY > height - (height / 3)):
-                worldY += 5
+                worldY += 15
 	
 
 def loadWorld(file):
@@ -157,7 +164,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('room.lvl')
+loadWorld('softserve.lvl')
 while 1:
         getInput()
         update()

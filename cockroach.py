@@ -25,9 +25,9 @@ class Cockroach(pygame.sprite.Sprite):
                 self.speed = 3
                 self.isHit = False
                 self.stunCount = STUN_COUNT
-
+                self.sound = pygame.mixer.Sound("sound/skitter.wav")
                 self.jumped = False
-
+                self.sound.set_volume(0.3)
 
                 #create huge rect to see if player is on same level
                 self.rectPlayerCheck = pygame.Rect(x - 400, (y + self.image.get_size()[1]) - 1, (800 + self.image.get_size()[1]), 1) 
@@ -62,6 +62,7 @@ class Cockroach(pygame.sprite.Sprite):
                 #if cockroach is grounded and player is on platform, move to him
                 if not self.isHit:
                     if (self.grounded == True and self.playerPlatform == True):
+                        self.sound.play()
                         if (self.rect.x < hero.rect.x):
                             self.direction = 1
                             self.rect.x += self.speed
@@ -109,6 +110,8 @@ class Cockroach(pygame.sprite.Sprite):
 
         def entityCollide(self, who):
                 #if collision between mouse and cockroach, health decre by 5
+
+                ### NEED TO EXTEND RECTANGLE FOR WHEN MOUSE IS HITTING
                 if self.rect.colliderect(who.rect):
                     if who.isHitting:
                         self.isHit = True
