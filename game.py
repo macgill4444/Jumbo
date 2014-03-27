@@ -32,6 +32,9 @@ platforms = pygame.sprite.Group()
 #dynamics is the sprite group that contains all dynamic elements in the game world, including enemies, mobile objects, and collectibles
 dynamics = pygame.sprite.Group()
 #background is the current background image
+chiptunes = {'spiderlevel.lvl':'chiptunes/boss.wav', 
+            'softserve.lvl':'chiptunes/level2.wav', 
+            'tutorial.lvl': 'chiptunes/level.wav'}
 
 def paint():
         screen.fill(16777215)
@@ -132,6 +135,10 @@ def loadWorld(file):
         background = pygame.image.load(f.readline().rstrip()).convert()
         dynamics.empty()
         platforms.empty()
+        global chiptunes
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(chiptunes[file])
+        pygame.mixer.music.play(-1)
         enemies = False
         for line in f:
                 if (line[0] == 'E'):
@@ -212,14 +219,15 @@ while intro:
                         pygame.mixer.music.stop()
                         menu.stop()
                 
-                #screen.blit(menu, (0, 0))
         menu.play()
         menu.blit(screen, (0,0))
         pygame.display.update()
 
 
 loadWorld('tutorial.lvl')
-pygame.mixer.Sound('chiptunes/level.wav').play(-1)
+
+
+
 while 1:
         getInput()
         update()
