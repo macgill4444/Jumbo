@@ -1,4 +1,5 @@
-import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web, dieroach
+import sys, pygame, env, characters, cockroach, spider, toxicdrip, jumpingroach, web, dieroach, pyganim
+from pygame.locals import *
 
 pygame.init()
 pygame.joystick.init()
@@ -176,6 +177,45 @@ def loadWorld(file):
         global worldX, worldY
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
+
+# menu screen
+try:
+        menu = pyganim.PygAnimation(
+                        [('sprites/menu0.png', 0.15),
+                         ('sprites/menu1.png', 0.15),
+                         ('sprites/menu2.png', 0.15),
+                         ('sprites/menu3.png', 0.15),
+                         ('sprites/menu2.png', 0.15),
+                         ('sprites/menu1.png', 0.15),
+                        ])
+except:
+        menu = pygame.image.load("assets/menu.png").convert()
+try:
+        intro_music = pygame.mixer.music.load("chiptunes/menu.wav")
+except:
+        print "Cannot get menu music"
+
+#screen.blit(menu, (0, 0))
+#pygame.display.flip()
+pygame.mixer.music.play(-1)
+intro = True
+menu.play()
+menu.blit(screen, (0,0))
+pygame.display.flip()
+
+while intro:
+        screen.fill(16777215)
+        for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                        intro = False
+                        pygame.mixer.music.stop()
+                        menu.stop()
+                
+                #screen.blit(menu, (0, 0))
+        menu.play()
+        menu.blit(screen, (0,0))
+        pygame.display.update()
+
 
 loadWorld('spiderlevel.lvl')
 while 1:
