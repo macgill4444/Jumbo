@@ -8,6 +8,7 @@ class Dieroach(cockroach.Cockroach):
         self.right_pix = 900
         #make the player check rect really small
         self.rectPlayerCheck = pygame.Rect(0,0, 1, 1)
+        self.playedSpider = False
 
     def update(self, hero, platforms):
       
@@ -28,8 +29,15 @@ class Dieroach(cockroach.Cockroach):
         elif self.inAir == False:
             self.right_pix -= self.speed
 
+        if self.left_pix < 90 and self.playedSpider == False:
+            self.playSpiderSound()
+            self.playedSpider = True
+
         #once the roach walks 900 pixels to the right, it dies
         if self.right_pix < 0:
-            print "we going kill this"
             self.kill()
         
+
+    def playSpiderSound(self):
+        self.spiderdrop = pygame.mixer.Sound('sound/spider_drop.wav')
+        self.spiderdrop.play()
