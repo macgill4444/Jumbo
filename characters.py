@@ -215,10 +215,10 @@ class Hero(pygame.sprite.Sprite):
                 grounded = False
                 for platform in platforms:
                         rect = self.rect.move((0, self.moveVector[1]))
-            rect.width -= 100
-            if (self.orientation > 0):
-                            rect.move_ip(100, 0)
-            col = platform.collides(rect) 
+                        rect.width -= 100
+                        if (self.orientation > 0):
+                                rect.move_ip(100, 0)
+                        col = platform.collides(rect) 
                         if col is not None:
                                 if (self.rect.y > platform.rect.y):
                                         self.rect.y = rect.y + col.height
@@ -231,9 +231,9 @@ class Hero(pygame.sprite.Sprite):
                                         self.moveVector[1] = 0
                         rect = self.rect.move((self.moveVector[0], 0))
 
-            rect.width -= 100
-            if (self.orientation > 0):
-                            rect.move_ip(100, 0)
+                        rect.width -= 100
+                        if (self.orientation > 0):
+                                rect.move_ip(100, 0)
                         col = platform.collides(rect)
                         if col is not None:
                                 if (self.rect.x < platform.rect.x):
