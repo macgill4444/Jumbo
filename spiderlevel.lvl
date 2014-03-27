@@ -13,7 +13,7 @@ Enemies
 spider, 680, 300
 spawn, 0, 884
 end, 4284, 296, win.lvl
-cutscene, 400
+cutscene, 250
 dieroach, 680, 860
 dieroach, 500, 884
 web, 2812, 868
