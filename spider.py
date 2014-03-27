@@ -19,7 +19,8 @@ class Spider(pygame.sprite.Sprite):
                 self.speed = 18
                 self.sound = pygame.mixer.Sound("sound/skitter.wav")
                 self.drop = pygame.mixer.Sound("sound/spider_drop.wav")
-
+                self.state = 0
+                self.counter = 1000
         def __setAnims__(self):
                 self.animObjs = {}
                 self.animObjs['climb'] = pyganim.PygAnimation(
@@ -39,8 +40,17 @@ class Spider(pygame.sprite.Sprite):
                 self.animObjs['right'].makeTransformsPermanent()
 
                 self.conductor = pyganim.PygConductor(self.animObjs)
-
+        def cutsceneupdate(self, hero, platforms):
+                self.counter -= 1
+                if self.counter < 0:
+                        self.state= 1
+                        self.climbing = False
         def update(self, hero, platforms):
+                if self.state == 1:
+                        self.normalupdate(hero, platforms)
+                if self.state == 0:
+                        self.cutsceneupdate(hero, platforms)
+        def normalupdate(self, hero, platforms):
                 if (self.climbing):
                         if (hero.rect.x > self.rect.x):
                                 self.rect.move_ip(self.speed, 0)
@@ -68,6 +78,7 @@ class Spider(pygame.sprite.Sprite):
                                 self.rect.move_ip(0, 10)
                 
         def draw(self, screen, world):
+                
                 if self.climbing:
                         self.conductor.play()
                         self.animObjs['climb'].blit(screen, self.rect.move(world))

@@ -21,6 +21,8 @@ offX = 0
 offY = 0
 global end
 global curlevel
+global cutscene
+cutscene = -1
 end = (1000000000, 1000000000000, "")
 #env.Hero is the class for the player-controlled character
 hero = characters.Hero()
@@ -63,7 +65,9 @@ def getInput():
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
         keys = pygame.key.get_pressed()
-        hero.move(keys, joystick)
+        global cutscene
+        if cutscene < 0:
+                hero.move(keys, joystick)
 	global camX, camY
 	if (joystick):
 		if (joystick.get_axis(1) > 0.5):
@@ -92,7 +96,9 @@ def getInput():
 def update():
         global end
         endx, endy, endname = end
-
+        global cutscene
+        if cutscene >= 0:
+                cutscene -= 1
         if (hero.rect.collidepoint(endx, endy)):
                 loadWorld(endname.strip())
         if (hero.health < 0):
@@ -149,6 +155,9 @@ def loadWorld(file):
                                         dynamics.add(jumpingroach.Jumpingroach( int (l[1]), int(l[2])))
                                 if(l[0].lower() == 'web'):
                                         dynamics.add(web.Spiderweb(int (l[1]), int(l[2])))
+                                if(l[0].lower() == 'cutscene'):
+                                        global cutscene
+                                        cutscene = int(l[1])
                         else:
                                 coords = []
                         
@@ -164,7 +173,7 @@ def loadWorld(file):
         worldX = hero.rect.x - 500
         worldY = hero.rect.y - 400
 
-loadWorld('softserve.lvl')
+loadWorld('spiderlevel.lvl')
 while 1:
         getInput()
         update()
