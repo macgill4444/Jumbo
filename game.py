@@ -107,7 +107,7 @@ def update():
         if (hero.rect.x - worldX > width - (width/3)-(200) - (200 * hero.orientation)):
                 worldX += hero.speed
         if (hero.rect.x - worldX < width/3 - 200 * hero.orientation):
-                worldX -= hero.speed
+                worldX -= hero.speed 
         if (hero.rect.y - worldY < (height/5)):
                 worldY -= 15
         if (hero.rect.y - worldY > height - (height / 3)):
