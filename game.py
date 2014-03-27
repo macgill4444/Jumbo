@@ -155,6 +155,8 @@ def loadWorld(file):
                                         dynamics.add(jumpingroach.Jumpingroach( int (l[1]), int(l[2])))
                                 if(l[0].lower() == 'web'):
                                         dynamics.add(web.Spiderweb(int (l[1]), int(l[2])))
+                                if(l[0].lower() == 'dieroach'):
+                                        dynamics.add(dieroach.Dieroach(int(l[1]), int(l[2])))
                                 if(l[0].lower() == 'cutscene'):
                                         global cutscene
                                         cutscene = int(l[1])
