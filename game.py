@@ -220,7 +220,8 @@ pygame.display.flip()
 while intro:
         screen.fill(16777215)
         for event in pygame.event.get():
-                if event.type == KEYDOWN | event.type == JOYBUTTONDOWN:
+                if event.type == KEYDOWN or  event.type == JOYBUTTONDOWN:
+
                         intro = False
                         pygame.mixer.music.stop()
                         menu.stop()
@@ -253,7 +254,7 @@ while scene:
         pygame.display.flip()
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
-                elif event.type == KEYDOWN | event.type == JOYBUTTONDOWN:
+                elif event.type == KEYDOWN or event.type == JOYBUTTONDOWN:
                     scene = False
                     pygame.mixer.music.stop()
         fpsClock.tick(30)
