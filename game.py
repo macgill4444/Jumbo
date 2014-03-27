@@ -173,7 +173,6 @@ def loadWorld(file):
                                 if(l[0].lower() == 'dieroach'):
                                         dynamics.add(dieroach.Dieroach(int(l[1]), int(l[2])))
                                 if(l[0].lower() == 'hawk'):
-                                        print "hawk"
                                         dynamics.add(hawk.Hawk())
                                 if(l[0].lower() == 'cutscene'):
                                         global cutscene
