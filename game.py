@@ -33,7 +33,8 @@ platforms = pygame.sprite.Group()
 dynamics = pygame.sprite.Group()
 #background is the current background image
 chiptunes = {'spiderlevel.lvl':'chiptunes/boss.wav', 
-            'softserve.lvl':'chiptunes/level2.wav', 
+            'softserve.lvl':'chiptunes/level2.wav',
+            'dewicklvl.lvl':'chiptunes/level2.wav',  
             'tutorial.lvl': 'chiptunes/level.wav'}
 
 def paint():
@@ -136,9 +137,6 @@ def loadWorld(file):
         dynamics.empty()
         platforms.empty()
         global chiptunes
-        pygame.mixer.music.stop()
-        pygame.mixer.music.load(chiptunes[file])
-        pygame.mixer.music.play(-1)
         try:
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load(chiptunes[file])
