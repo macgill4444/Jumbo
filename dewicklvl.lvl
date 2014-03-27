@@ -1,0 +1,27 @@
+levels/dewicklvl.jpg
+0, 1050, 1150, 100
+1500, 1100, 950, 100
+1150, 1430, 400, 70
+2920, 1100, 1580, 100
+3470, 445, 880, 70 
+4645, 445, 900, 70
+2500, 1400, 420, 70
+2970, 1480, 1580, 100
+Enemies
+spawn, 0, 0
+jumpingroach, 1360, 1360
+jumpingroach, 2690, 1100
+jumpingroach, 3743, 1270
+jumpingroach, 3853, 1300
+cockroach, 2990, 1320
+cockroach, 3703, 1320
+cockroach, 3800, 700
+cockroach, 4380, 930
+cockroach, 3022, 809
+drip, 1715, 780, 1158, 2
+drip, 3670, 740, 1155, 4
+web, 2620, 800
+web, 2950, 511
+web, 3200, 400
+web, 3437, 871
+end, 5777, 220, softserve.lvl
